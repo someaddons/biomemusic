@@ -1,0 +1,14 @@
+{
+  "required": false,
+  "package": "com.biomemusic.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "biomemusic.refmap.json",
+  "mixins": [
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "minVersion": "0.8"
+}
