@@ -1,0 +1,37 @@
+{
+  "music.nether": {
+    "sounds": [
+      {
+        "name": "minecraft:music/game/nether/crimson_forest/chrysopoeia",
+        "stream": true,
+        "volume": 0.5
+      },
+      {
+        "name": "minecraft:music/game/nether/nether1",
+        "stream": true
+      },
+      {
+        "name": "minecraft:music/game/nether/nether2",
+        "stream": true
+      },
+      {
+        "name": "minecraft:music/game/nether/nether3",
+        "stream": true
+      },
+      {
+        "name": "minecraft:music/game/nether/nether4",
+        "stream": true
+      },
+      {
+        "name": "minecraft:music/game/nether/soulsand_valley/so_below",
+        "stream": true,
+        "volume": 0.5
+      },
+      {
+        "name": "minecraft:music/game/nether/nether_wastes/rubedo",
+        "stream": true,
+        "volume": 0.5
+      }
+    ]
+  }
+}

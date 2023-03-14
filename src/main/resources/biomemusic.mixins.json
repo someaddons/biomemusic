@@ -6,6 +6,9 @@
   "mixins": [
   ],
   "client": [
+    "MusicPlayMixin",
+    "MusicCreationMixin",
+    "ClientMusicChoiceMixin"
   ],
   "injectors": {
     "defaultRequire": 1

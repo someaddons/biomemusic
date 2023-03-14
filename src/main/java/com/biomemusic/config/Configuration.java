@@ -23,7 +23,7 @@ public class Configuration
      * Loaded clientside, not synced
      */
     // private final ClientConfiguration clientConfig;
-    final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    final Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
 
     /**
      * Builds configuration tree.

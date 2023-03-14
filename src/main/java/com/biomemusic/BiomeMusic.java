@@ -48,5 +48,6 @@ public class BiomeMusic
     {
         config.load();
         LOGGER.info(MODID + " mod initialized");
+        AdditionalMusic.init();
     }
 }
