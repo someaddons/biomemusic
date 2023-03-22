@@ -5,7 +5,7 @@ import com.google.gson.JsonObject;
 
 public class CommonConfiguration
 {
-    public double delayModifier = 0.5;
+    public double delayModifier = 0.25;
     public float pitchVariance = 0f;
     public boolean musicVariance                   = true;
     public boolean disableDefaultMusicInDimensions = true;
@@ -22,12 +22,12 @@ public class CommonConfiguration
         final JsonObject root = new JsonObject();
 
         final JsonObject entry = new JsonObject();
-        entry.addProperty("desc:", "Modifies the delay between songs, lower = shorter delay. Default = 0.5");
+        entry.addProperty("desc:", "Modifies the delay between songs, lower = shorter delay (1.0 = vanilla). Default = 0.25");
         entry.addProperty("delayModifier", delayModifier);
         root.add("delayModifier", entry);
 
         final JsonObject entry5 = new JsonObject();
-        entry5.addProperty("desc:", "Adds randomized pitch variance of up to the given value, default = 0");
+        entry5.addProperty("desc:", "Adds randomized pitch variance of up to the given value (e.g. 0.1), makes songs sound slightly different. default = 0");
         entry5.addProperty("pitchVariance", pitchVariance);
         root.add("pitchVariance", entry5);
 

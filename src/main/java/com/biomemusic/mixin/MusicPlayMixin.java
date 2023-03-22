@@ -36,10 +36,10 @@ public class MusicPlayMixin
 
         if (BiomeMusic.config.getCommonConfig().displayMusicPlayed)
         {
-            BiomeMusic.LOGGER.info("Playing: " + sound.getSound().getLocation());
+            BiomeMusic.LOGGER.info("playing: " + sound.getSound().getLocation());
             if (Minecraft.getInstance().player != null)
             {
-                Minecraft.getInstance().player.sendSystemMessage(Component.literal("Playing: " + sound.getSound().getLocation()));
+                Minecraft.getInstance().player.displayClientMessage(Component.literal("playing: " + sound.getSound().getLocation()), true);
             }
         }
     }
