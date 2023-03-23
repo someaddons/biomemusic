@@ -7,7 +7,6 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.WinScreen;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.core.Holder;
 import net.minecraft.sounds.Music;
 import net.minecraft.sounds.Musics;
@@ -65,15 +64,14 @@ public class ClientMusicChoiceMixin
                     possibleTracks.add(Musics.END);
                 }
 
-                if (!BiomeMusic.config.getCommonConfig().disableDefaultMusicInDimensions)
+                if (!BiomeMusic.getConfig().getCommonConfig().disableDefaultMusicInDimensions)
                 {
                     possibleTracks.add(Musics.GAME);
                 }
-
             }
             else if (player.level.dimension() == Level.NETHER)
             {
-                if (!BiomeMusic.config.getCommonConfig().disableDefaultMusicInDimensions)
+                if (!BiomeMusic.getConfig().getCommonConfig().disableDefaultMusicInDimensions)
                 {
                     possibleTracks.add(Musics.GAME);
                 }
@@ -108,7 +106,7 @@ public class ClientMusicChoiceMixin
 
             if (biomeMusic != null)
             {
-                if (!BiomeMusic.config.getCommonConfig().musicVariance)
+                if (!BiomeMusic.getConfig().getCommonConfig().musicVariance)
                 {
                     possibleTracks.clear();
                 }
@@ -119,7 +117,7 @@ public class ClientMusicChoiceMixin
                 }
             }
 
-            if (BiomeMusic.config.getCommonConfig().musicVariance)
+            if (BiomeMusic.getConfig().getCommonConfig().musicVariance)
             {
                 for (final Map.Entry<TagKey<Biome>, List<Music>> entry : AdditionalMusic.taggedMusic.entrySet())
                 {

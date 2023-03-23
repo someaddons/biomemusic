@@ -8,7 +8,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.IExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -25,8 +24,18 @@ public class BiomeMusic
 {
     public static final String        MODID  = "biomemusic";
     public static final Logger        LOGGER = LogManager.getLogger();
-    public static       Configuration config = new Configuration();
+    private static      Configuration config = null;
     public static       Random        rand   = new Random();
+
+    public static Configuration getConfig()
+    {
+        if (config == null)
+        {
+            config = new Configuration();
+            config.load();
+        }
+        return config;
+    }
 
     public BiomeMusic()
     {
@@ -46,8 +55,6 @@ public class BiomeMusic
 
     private void setup(final FMLCommonSetupEvent event)
     {
-        config.load();
         LOGGER.info(MODID + " mod initialized");
-        AdditionalMusic.init();
     }
 }

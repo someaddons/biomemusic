@@ -1,6 +1,7 @@
 package com.biomemusic.mixin;
 
 import com.biomemusic.BiomeMusic;
+import net.minecraft.core.Holder;
 import net.minecraft.sounds.Music;
 import net.minecraft.sounds.SoundEvent;
 import org.spongepowered.asm.mixin.Final;
@@ -26,16 +27,14 @@ public class MusicCreationMixin
 
     @Inject(method = "<init>", at = @At("RETURN"))
     private void onInit(
-      final SoundEvent event,
-      final int p_263377_,
-      final int p_263383_, final boolean p_263387_, final CallbackInfo ci)
+      final Holder<SoundEvent> holder, final int p_263377_, final int p_263383_, final boolean p_263387_, final CallbackInfo ci)
     {
-        minDelay *= BiomeMusic.config.getCommonConfig().delayModifier;
-        maxDelay *= BiomeMusic.config.getCommonConfig().delayModifier;
+        minDelay *= BiomeMusic.getConfig().getCommonConfig().delayModifier;
+        maxDelay *= BiomeMusic.getConfig().getCommonConfig().delayModifier;
 
-        if (BiomeMusic.config.getCommonConfig().logloadedmusic)
+        if (BiomeMusic.getConfig().getCommonConfig().logloadedmusic && holder.unwrapKey().isPresent())
         {
-            BiomeMusic.LOGGER.info("Loaded music: "+event.getLocation());
+            BiomeMusic.LOGGER.info("Loaded music: "+holder.unwrapKey().get().location());
         }
     }
 }
