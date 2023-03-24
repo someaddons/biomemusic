@@ -4,7 +4,7 @@ import com.biomemusic.BiomeMusic;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import net.minecraftforge.fml.loading.FMLPaths;
+import net.fabricmc.loader.api.FabricLoader;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -34,7 +34,7 @@ public class Configuration
 
     public void load()
     {
-        final Path configPath = FMLPaths.CONFIGDIR.get().resolve(BiomeMusic.MODID + ".json");
+        final Path configPath = FabricLoader.getInstance().getConfigDir().normalize().resolve(BiomeMusic.MODID + ".json");
         final File config = configPath.toFile();
         if (!config.exists())
         {
@@ -57,7 +57,7 @@ public class Configuration
 
     public void save()
     {
-        final Path configPath = FMLPaths.CONFIGDIR.get().resolve(BiomeMusic.MODID + ".json");
+        final Path configPath = FabricLoader.getInstance().getConfigDir().normalize().resolve(BiomeMusic.MODID + ".json");
         try
         {
             final BufferedWriter writer = Files.newBufferedWriter(configPath);
