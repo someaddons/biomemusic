@@ -1,7 +1,5 @@
 package com.biomemusic;
 
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.Music;
 import net.minecraft.sounds.Musics;
@@ -18,7 +16,7 @@ import java.util.Map;
 
 public class AdditionalMusic
 {
-    public static Music NETHER_ALL = new Music(Registry.registerForHolder(BuiltInRegistries.SOUND_EVENT, new ResourceLocation(BiomeMusic.MODID, "music.nether"), SoundEvent.createVariableRangeEvent(new ResourceLocation(BiomeMusic.MODID, "music.nether"))), 12000, 24000, false);
+    public static Music NETHER_ALL = new Music(new SoundEvent(new ResourceLocation(BiomeMusic.MODID, "music.nether")), 12000, 24000, false);
 
     public static final Map<TagKey<Biome>, List<Music>> taggedMusic = new HashMap<>();
     public static final Map<String, List<Music>>        namedMusic  = new HashMap<>();
