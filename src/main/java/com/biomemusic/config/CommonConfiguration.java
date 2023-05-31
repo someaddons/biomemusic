@@ -5,7 +5,7 @@ import com.google.gson.JsonObject;
 
 public class CommonConfiguration
 {
-    public double delayModifier = 0.25;
+    public double delayModifier = 0.35;
     public float pitchVariance = 0f;
     public boolean musicVariance                   = true;
     public boolean disableDefaultMusicInDimensions = true;
