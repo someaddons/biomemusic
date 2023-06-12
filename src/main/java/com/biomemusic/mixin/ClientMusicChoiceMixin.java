@@ -85,7 +85,7 @@ public class ClientMusicChoiceMixin
                 }
                 possibleTracks.add(Musics.GAME);
 
-                if (this.player.isUnderWater() && this.player.level.getBiome(this.player.blockPosition()).is(BiomeTags.PLAYS_UNDERWATER_MUSIC))
+                if (this.player.isUnderWater() && this.player.level.getBiome(this.player.blockPosition()).is(BiomeTags.IS_OCEAN))
                 {
                     possibleTracks.clear();
                     possibleTracks.add(Musics.UNDER_WATER);
