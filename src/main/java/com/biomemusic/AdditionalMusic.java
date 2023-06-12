@@ -1,7 +1,6 @@
 package com.biomemusic;
 
 import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.Music;
 import net.minecraft.sounds.Musics;
@@ -18,7 +17,9 @@ import java.util.Map;
 
 public class AdditionalMusic
 {
-    public static Music NETHER_ALL = new Music(Registry.registerForHolder(BuiltInRegistries.SOUND_EVENT, new ResourceLocation(BiomeMusic.MODID, "music.nether"), SoundEvent.createVariableRangeEvent(new ResourceLocation(BiomeMusic.MODID, "music.nether"))), 12000, 24000, false);
+    public static Music NETHER_ALL = new Music(Registry.register(Registry.SOUND_EVENT,
+      new ResourceLocation(BiomeMusic.MODID, "music.nether"),
+      new SoundEvent(new ResourceLocation(BiomeMusic.MODID, "music.nether"))), 12000, 24000, false);
 
     public static final Map<TagKey<Biome>, List<Music>> taggedMusic = new HashMap<>();
     public static final Map<String, List<Music>>        namedMusic  = new HashMap<>();
@@ -26,17 +27,11 @@ public class AdditionalMusic
     public static void init()
     {
         taggedMusic.computeIfAbsent(BiomeTags.HAS_VILLAGE_SNOWY, key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_SNOWY_SLOPES));
-        taggedMusic.computeIfAbsent(BiomeTags.HAS_ANCIENT_CITY, key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_DEEP_DARK));
         namedMusic.computeIfAbsent("cave", key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_DRIPSTONE_CAVES));
         taggedMusic.computeIfAbsent(BiomeTags.IS_FOREST, key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_GROVE));
         taggedMusic.computeIfAbsent(BiomeTags.HAS_VILLAGE_SNOWY, key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_GROVE));
         taggedMusic.computeIfAbsent(BiomeTags.IS_MOUNTAIN, key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_JAGGED_PEAKS));
         namedMusic.computeIfAbsent("cave", key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_LUSH_CAVES));
-        namedMusic.computeIfAbsent("swamp", key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_SWAMP));
-        taggedMusic.computeIfAbsent(BiomeTags.HAS_SWAMP_HUT, key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_SWAMP));
-        taggedMusic.computeIfAbsent(BiomeTags.IS_JUNGLE, key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_JUNGLE_AND_FOREST));
-        taggedMusic.computeIfAbsent(BiomeTags.IS_FOREST, key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_JUNGLE_AND_FOREST));
-        namedMusic.computeIfAbsent("old_growth", key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_OLD_GROWTH_TAIGA));
         taggedMusic.computeIfAbsent(BiomeTags.IS_MOUNTAIN, key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_MEADOW));
         taggedMusic.computeIfAbsent(BiomeTags.IS_MOUNTAIN, key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_FROZEN_PEAKS));
         taggedMusic.computeIfAbsent(BiomeTags.IS_MOUNTAIN, key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_SNOWY_SLOPES));
