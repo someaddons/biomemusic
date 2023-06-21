@@ -53,7 +53,7 @@ public class ClientMusicChoiceMixin
 
         if (this.player != null)
         {
-            if (this.player.level.dimension() == Level.END)
+            if (this.player.level().dimension() == Level.END)
             {
                 if (gui.getBossOverlay().shouldPlayMusic())
                 {
@@ -69,7 +69,7 @@ public class ClientMusicChoiceMixin
                     possibleTracks.add(Musics.GAME);
                 }
             }
-            else if (player.level.dimension() == Level.NETHER)
+            else if (player.level().dimension() == Level.NETHER)
             {
                 if (!BiomeMusic.getConfig().getCommonConfig().disableDefaultMusicInDimensions)
                 {
@@ -85,7 +85,7 @@ public class ClientMusicChoiceMixin
                 }
                 possibleTracks.add(Musics.GAME);
 
-                if (this.player.isUnderWater() && this.player.level.getBiome(this.player.blockPosition()).is(BiomeTags.PLAYS_UNDERWATER_MUSIC))
+                if (this.player.isUnderWater() && this.player.level().getBiome(this.player.blockPosition()).is(BiomeTags.PLAYS_UNDERWATER_MUSIC))
                 {
                     possibleTracks.clear();
                     possibleTracks.add(Musics.UNDER_WATER);
@@ -101,7 +101,7 @@ public class ClientMusicChoiceMixin
             }
 
             // Add biome music
-            Holder<Biome> holder = this.player.level.getBiome(this.player.blockPosition());
+            Holder<Biome> holder = this.player.level().getBiome(this.player.blockPosition());
             final Music biomeMusic = holder.value().getBackgroundMusic().orElse(null);
 
             if (biomeMusic != null)
