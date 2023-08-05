@@ -4,19 +4,13 @@ import com.biomemusic.BiomeMusic;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.sounds.AbstractSoundInstance;
 import net.minecraft.client.resources.sounds.SoundInstance;
-import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.client.sounds.SoundEngine;
 import net.minecraft.network.chat.Component;
-import net.minecraft.sounds.Music;
 import net.minecraft.sounds.SoundSource;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import javax.annotation.Nullable;
 
 @Mixin(SoundEngine.class)
 public class MusicPlayMixin
@@ -29,14 +23,15 @@ public class MusicPlayMixin
             return;
         }
 
-        if (sound instanceof AbstractSoundInstance && BiomeMusic.getConfig().getCommonConfig().pitchVariance > 0f)
+        if (sound instanceof AbstractSoundInstance && BiomeMusic.config.getCommonConfig().pitchVariance > 0f)
         {
-            ((AbstractSoundInstance)sound).pitch  += BiomeMusic.rand.nextFloat(BiomeMusic.getConfig().getCommonConfig().pitchVariance * 2) - BiomeMusic.getConfig().getCommonConfig().pitchVariance;
+            ((AbstractSoundInstance) sound).pitch +=
+              BiomeMusic.rand.nextFloat(BiomeMusic.config.getCommonConfig().pitchVariance * 2) - BiomeMusic.config.getCommonConfig().pitchVariance;
         }
 
-        if (BiomeMusic.getConfig().getCommonConfig().displayMusicPlayed)
+        if (BiomeMusic.config.getCommonConfig().displayMusicPlayed)
         {
-            BiomeMusic.LOGGER.info("playing: " + sound.getLocation() + " sound:"+ sound.getSound().getLocation());
+            BiomeMusic.LOGGER.info("playing: " + sound.getLocation() + " sound:" + sound.getSound().getLocation());
             if (Minecraft.getInstance().player != null)
             {
                 Minecraft.getInstance().player.displayClientMessage(Component.literal("playing: " + sound.getSound().getLocation()), true);

@@ -30,10 +30,10 @@ public class MusicCreationMixin
       final int p_263377_,
       final int p_263383_, final boolean p_263387_, final CallbackInfo ci)
     {
-        minDelay *= BiomeMusic.getConfig().getCommonConfig().delayModifier;
-        maxDelay *= BiomeMusic.getConfig().getCommonConfig().delayModifier;
+        minDelay *= BiomeMusic.config.getCommonConfig().delayModifier;
+        maxDelay *= BiomeMusic.config.getCommonConfig().delayModifier;
 
-        if (BiomeMusic.getConfig().getCommonConfig().logloadedmusic)
+        if (BiomeMusic.config.getCommonConfig().logloadedmusic)
         {
             BiomeMusic.LOGGER.info("Loaded music: "+event.getLocation());
         }
