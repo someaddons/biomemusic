@@ -1,6 +1,7 @@
 package com.biomemusic;
 
-import com.biomemusic.config.Configuration;
+import com.biomemusic.config.CommonConfiguration;
+import com.cupboard.config.CupboardConfig;
 import net.fabricmc.api.ModInitializer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,20 +12,10 @@ import java.util.Random;
 
 public class BiomeMusic implements ModInitializer
 {
-    public static final String        MODID  = "biomemusic";
-    public static final Logger        LOGGER = LogManager.getLogger();
-    private static      Configuration config = null;
-    public static       Random        rand   = new Random();
-
-    public static Configuration getConfig()
-    {
-        if (config == null)
-        {
-            config = new Configuration();
-            config.load();
-        }
-        return config;
-    }
+    public static final String                              MODID  = "biomemusic";
+    public static final Logger                              LOGGER = LogManager.getLogger();
+    public static      CupboardConfig<CommonConfiguration> config = new CupboardConfig<>(MODID, new CommonConfiguration());
+    public static       Random                              rand   = new Random();
 
     public BiomeMusic()
     {

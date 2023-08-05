@@ -23,6 +23,46 @@
         "stream": true
       },
       {
+        "name": "biomemusic:music/nether/nether1",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/nether/nether2",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/nether/nether3",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/nether/nether4",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/nether/nether5",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/nether/nether6",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/nether/nether7",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/nether/nether8",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/nether/nether9",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/nether/nether10",
+        "stream": true
+      },
+      {
         "name": "minecraft:music/game/nether/soulsand_valley/so_below",
         "stream": true,
         "volume": 0.5
@@ -31,6 +71,94 @@
         "name": "minecraft:music/game/nether/nether_wastes/rubedo",
         "stream": true,
         "volume": 0.5
+      }
+    ]
+  },
+  "music.end": {
+    "sounds": [
+      {
+        "name": "biomemusic:music/end/end1",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/end/end2",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/end/end3",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/end/end4",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/end/end5",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/end/end6",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/end/end7",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/end/end8",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/end/end9",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/end/end10",
+        "stream": true
+      }
+    ]
+  },
+  "music.game": {
+    "sounds": [
+      {
+        "name": "biomemusic:music/game/game1",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/game/game2",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/game/game3",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/game/game4",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/game/game5",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/game/game6",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/game/game7",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/game/game8",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/game/game9",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/game/game10",
+        "stream": true
       }
     ]
   }

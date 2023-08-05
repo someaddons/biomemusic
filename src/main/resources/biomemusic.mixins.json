@@ -8,7 +8,8 @@
     "MusicPlayMixin",
     "MusicCreationMixin",
     "ClientMusicChoiceMixin",
-    "SoundEventsMixin"
+    "SoundEventsMixin",
+    "SoundManagerWarnMixin"
   ],
   "injectors": {
     "defaultRequire": 1

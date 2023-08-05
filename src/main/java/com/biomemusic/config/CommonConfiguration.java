@@ -1,9 +1,10 @@
 package com.biomemusic.config;
 
 import com.biomemusic.BiomeMusic;
+import com.cupboard.config.ICommonConfig;
 import com.google.gson.JsonObject;
 
-public class CommonConfiguration
+public class CommonConfiguration implements ICommonConfig
 {
     public double delayModifier = 0.25;
     public float pitchVariance = 0f;
@@ -56,12 +57,6 @@ public class CommonConfiguration
 
     public void deserialize(JsonObject data)
     {
-        if (data == null)
-        {
-            BiomeMusic.LOGGER.error("Config file was empty!");
-            return;
-        }
-
         delayModifier = data.get("delayModifier").getAsJsonObject().get("delayModifier").getAsDouble();
         musicVariance = data.get("musicVariance").getAsJsonObject().get("musicVariance").getAsBoolean();
         displayMusicPlayed = data.get("displayMusicPlayed").getAsJsonObject().get("displayMusicPlayed").getAsBoolean();
