@@ -7,7 +7,6 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.WinScreen;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.core.Holder;
 import net.minecraft.sounds.Music;
 import net.minecraft.sounds.Musics;
@@ -70,6 +69,8 @@ public class ClientMusicChoiceMixin
                     possibleTracks.add(Musics.GAME);
                 }
 
+                possibleTracks.add(AdditionalMusic.END_ADDITIONAL);
+                possibleTracks.add(AdditionalMusic.END_ADDITIONAL);
             }
             else if (player.level.dimension() == Level.NETHER)
             {
@@ -77,6 +78,7 @@ public class ClientMusicChoiceMixin
                 {
                     possibleTracks.add(Musics.GAME);
                 }
+                possibleTracks.add(AdditionalMusic.NETHER_ALL);
                 possibleTracks.add(AdditionalMusic.NETHER_ALL);
             }
             else
@@ -86,6 +88,8 @@ public class ClientMusicChoiceMixin
                     possibleTracks.add(Musics.CREATIVE);
                 }
                 possibleTracks.add(Musics.GAME);
+                possibleTracks.add(AdditionalMusic.GAME_ADDITIONAL);
+                possibleTracks.add(AdditionalMusic.GAME_ADDITIONAL);
 
                 if (this.player.isUnderWater() && this.player.level.getBiome(this.player.blockPosition()).is(BiomeTags.PLAYS_UNDERWATER_MUSIC))
                 {
@@ -105,7 +109,6 @@ public class ClientMusicChoiceMixin
             // Add biome music
             Holder<Biome> holder = this.player.level.getBiome(this.player.blockPosition());
             final Music biomeMusic = holder.value().getBackgroundMusic().orElse(null);
-
             if (biomeMusic != null)
             {
                 if (!BiomeMusic.config.getCommonConfig().musicVariance)

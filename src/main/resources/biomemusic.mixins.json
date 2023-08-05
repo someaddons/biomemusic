@@ -8,7 +8,9 @@
   "client": [
     "MusicPlayMixin",
     "MusicCreationMixin",
-    "ClientMusicChoiceMixin"
+    "ClientMusicChoiceMixin",
+    "SoundEventsMixin",
+    "SoundManagerWarnMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -1,14 +1,14 @@
 package com.biomemusic;
 
-import com.biomemusic.config.Configuration;
+import com.biomemusic.config.CommonConfiguration;
 import com.biomemusic.event.ClientEventHandler;
 import com.biomemusic.event.EventHandler;
 import com.biomemusic.event.ModEventHandler;
+import com.cupboard.config.CupboardConfig;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.IExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -23,10 +23,10 @@ import static com.biomemusic.BiomeMusic.MODID;
 @Mod(MODID)
 public class BiomeMusic
 {
-    public static final String        MODID  = "biomemusic";
-    public static final Logger        LOGGER = LogManager.getLogger();
-    public static       Configuration config = new Configuration();
-    public static       Random        rand   = new Random();
+    public static final String                              MODID  = "biomemusic";
+    public static final Logger                              LOGGER = LogManager.getLogger();
+    public static       CupboardConfig<CommonConfiguration> config = new CupboardConfig<>(MODID, new CommonConfiguration());
+    public static       Random                              rand   = new Random();
 
     public BiomeMusic()
     {
@@ -46,8 +46,6 @@ public class BiomeMusic
 
     private void setup(final FMLCommonSetupEvent event)
     {
-        config.load();
         LOGGER.info(MODID + " mod initialized");
-        AdditionalMusic.init();
     }
 }
