@@ -29,12 +29,12 @@ public class MusicPlayMixin
             return;
         }
 
-        if (sound instanceof AbstractSoundInstance && BiomeMusic.getConfig().getCommonConfig().pitchVariance > 0f)
+        if (sound instanceof AbstractSoundInstance && BiomeMusic.config.getCommonConfig().pitchVariance > 0f)
         {
-            ((AbstractSoundInstance)sound).pitch  += BiomeMusic.rand.nextFloat(BiomeMusic.getConfig().getCommonConfig().pitchVariance * 2) - BiomeMusic.getConfig().getCommonConfig().pitchVariance;
+            ((AbstractSoundInstance)sound).pitch  += BiomeMusic.rand.nextFloat(BiomeMusic.config.getCommonConfig().pitchVariance * 2) - BiomeMusic.config.getCommonConfig().pitchVariance;
         }
 
-        if (BiomeMusic.getConfig().getCommonConfig().displayMusicPlayed)
+        if (BiomeMusic.config.getCommonConfig().displayMusicPlayed)
         {
             BiomeMusic.LOGGER.info("playing: " + sound.getLocation() + " sound:"+ sound.getSound().getLocation());
             if (Minecraft.getInstance().player != null)

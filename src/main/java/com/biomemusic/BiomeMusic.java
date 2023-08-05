@@ -1,9 +1,10 @@
 package com.biomemusic;
 
-import com.biomemusic.config.Configuration;
+import com.biomemusic.config.CommonConfiguration;
 import com.biomemusic.event.ClientEventHandler;
 import com.biomemusic.event.EventHandler;
 import com.biomemusic.event.ModEventHandler;
+import com.cupboard.config.CupboardConfig;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.IExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -22,20 +23,10 @@ import static com.biomemusic.BiomeMusic.MODID;
 @Mod(MODID)
 public class BiomeMusic
 {
-    public static final String        MODID  = "biomemusic";
-    public static final Logger        LOGGER = LogManager.getLogger();
-    private static      Configuration config = null;
-    public static       Random        rand   = new Random();
-
-    public static Configuration getConfig()
-    {
-        if (config == null)
-        {
-            config = new Configuration();
-            config.load();
-        }
-        return config;
-    }
+    public static final String                              MODID  = "biomemusic";
+    public static final Logger                              LOGGER = LogManager.getLogger();
+    public static       CupboardConfig<CommonConfiguration> config = new CupboardConfig<>(MODID, new CommonConfiguration());
+    public static       Random                              rand   = new Random();
 
     public BiomeMusic()
     {

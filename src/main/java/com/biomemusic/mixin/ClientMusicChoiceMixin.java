@@ -2,6 +2,7 @@ package com.biomemusic.mixin;
 
 import com.biomemusic.AdditionalMusic;
 import com.biomemusic.BiomeMusic;
+import net.minecraft.Optionull;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.screens.Screen;
@@ -49,6 +50,13 @@ public class ClientMusicChoiceMixin
             return;
         }
 
+        Music music = Optionull.map(this.screen, Screen::getBackgroundMusic);
+        if (music != null)
+        {
+            cir.setReturnValue(music);
+            return;
+        }
+
         List<Music> possibleTracks = new ArrayList<>();
 
         if (this.player != null)
@@ -64,17 +72,21 @@ public class ClientMusicChoiceMixin
                     possibleTracks.add(Musics.END);
                 }
 
-                if (!BiomeMusic.getConfig().getCommonConfig().disableDefaultMusicInDimensions)
+                if (!BiomeMusic.config.getCommonConfig().disableDefaultMusicInDimensions)
                 {
                     possibleTracks.add(Musics.GAME);
                 }
+
+                possibleTracks.add(AdditionalMusic.END_ADDITIONAL);
+                possibleTracks.add(AdditionalMusic.END_ADDITIONAL);
             }
             else if (player.level().dimension() == Level.NETHER)
             {
-                if (!BiomeMusic.getConfig().getCommonConfig().disableDefaultMusicInDimensions)
+                if (!BiomeMusic.config.getCommonConfig().disableDefaultMusicInDimensions)
                 {
                     possibleTracks.add(Musics.GAME);
                 }
+                possibleTracks.add(AdditionalMusic.NETHER_ALL);
                 possibleTracks.add(AdditionalMusic.NETHER_ALL);
             }
             else
@@ -84,6 +96,8 @@ public class ClientMusicChoiceMixin
                     possibleTracks.add(Musics.CREATIVE);
                 }
                 possibleTracks.add(Musics.GAME);
+                possibleTracks.add(AdditionalMusic.GAME_ADDITIONAL);
+                possibleTracks.add(AdditionalMusic.GAME_ADDITIONAL);
 
                 if (this.player.isUnderWater() && this.player.level().getBiome(this.player.blockPosition()).is(BiomeTags.PLAYS_UNDERWATER_MUSIC))
                 {
@@ -103,10 +117,9 @@ public class ClientMusicChoiceMixin
             // Add biome music
             Holder<Biome> holder = this.player.level().getBiome(this.player.blockPosition());
             final Music biomeMusic = holder.value().getBackgroundMusic().orElse(null);
-
             if (biomeMusic != null)
             {
-                if (!BiomeMusic.getConfig().getCommonConfig().musicVariance)
+                if (!BiomeMusic.config.getCommonConfig().musicVariance)
                 {
                     possibleTracks.clear();
                 }
@@ -117,7 +130,7 @@ public class ClientMusicChoiceMixin
                 }
             }
 
-            if (BiomeMusic.getConfig().getCommonConfig().musicVariance)
+            if (BiomeMusic.config.getCommonConfig().musicVariance)
             {
                 for (final Map.Entry<TagKey<Biome>, List<Music>> entry : AdditionalMusic.taggedMusic.entrySet())
                 {
