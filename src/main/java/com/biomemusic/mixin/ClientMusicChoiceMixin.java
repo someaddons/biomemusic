@@ -91,10 +91,23 @@ public class ClientMusicChoiceMixin
             }
             else
             {
+                if (player.level().isNight())
+                {
+                    possibleTracks.add(AdditionalMusic.NIGHT_ADDITIONAL);
+                    possibleTracks.add(AdditionalMusic.NIGHT_ADDITIONAL);
+
+                    if (BiomeMusic.config.getCommonConfig().playonlycustomnightmusic)
+                    {
+                        cir.setReturnValue(AdditionalMusic.NIGHT_ADDITIONAL);
+                        return;
+                    }
+                }
+
                 if (player.isCreative())
                 {
                     possibleTracks.add(Musics.CREATIVE);
                 }
+
                 possibleTracks.add(Musics.GAME);
                 possibleTracks.add(AdditionalMusic.GAME_ADDITIONAL);
                 possibleTracks.add(AdditionalMusic.GAME_ADDITIONAL);
