@@ -161,5 +161,49 @@
         "stream": true
       }
     ]
+  },
+  "music.night": {
+    "sounds": [
+      {
+        "name": "biomemusic:music/night/night1",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/night/night2",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/night/night3",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/night/night4",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/night/night5",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/night/night6",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/night/night7",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/night/night8",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/night/night9",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/night/night10",
+        "stream": true
+      }
+    ]
   }
 }

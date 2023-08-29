@@ -11,6 +11,7 @@ public class CommonConfiguration implements ICommonConfig
     public boolean disableDefaultMusicInDimensions = true;
     public boolean displayMusicPlayed              = false;
     public boolean logloadedmusic                  = false;
+    public boolean playonlycustomnightmusic        = false;
 
     public CommonConfiguration()
     {
@@ -46,6 +47,11 @@ public class CommonConfiguration implements ICommonConfig
         entry3.addProperty("displayMusicPlayed", displayMusicPlayed);
         root.add("displayMusicPlayed", entry3);
 
+        final JsonObject entry9 = new JsonObject();
+        entry9.addProperty("desc:", "Plays only custom provided music at night, default = false");
+        entry9.addProperty("playonlycustomnightmusic", playonlycustomnightmusic);
+        root.add("playonlycustomnightmusic", entry9);
+
         final JsonObject entry4 = new JsonObject();
         entry4.addProperty("desc:", "Prints the music files getting loaded into the latest.log, default = false");
         entry4.addProperty("logloadedmusic", logloadedmusic);
@@ -60,6 +66,7 @@ public class CommonConfiguration implements ICommonConfig
         musicVariance = data.get("musicVariance").getAsJsonObject().get("musicVariance").getAsBoolean();
         displayMusicPlayed = data.get("displayMusicPlayed").getAsJsonObject().get("displayMusicPlayed").getAsBoolean();
         logloadedmusic = data.get("logloadedmusic").getAsJsonObject().get("logloadedmusic").getAsBoolean();
+        playonlycustomnightmusic = data.get("playonlycustomnightmusic").getAsJsonObject().get("playonlycustomnightmusic").getAsBoolean();
         disableDefaultMusicInDimensions = data.get("disableDefaultMusicInDimensions").getAsJsonObject().get("disableDefaultMusicInDimensions").getAsBoolean();
         pitchVariance = data.get("pitchVariance").getAsJsonObject().get("pitchVariance").getAsFloat();
     }
