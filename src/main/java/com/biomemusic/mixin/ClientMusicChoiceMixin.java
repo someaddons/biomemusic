@@ -91,7 +91,7 @@ public class ClientMusicChoiceMixin
             }
             else
             {
-                if (player.level().isNight())
+                if ((player.level().getDayTime() % 24000) > 12600)
                 {
                     possibleTracks.add(AdditionalMusic.NIGHT_ADDITIONAL);
                     possibleTracks.add(AdditionalMusic.NIGHT_ADDITIONAL);
