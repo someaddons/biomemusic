@@ -39,7 +39,7 @@ public class CommonConfiguration implements ICommonConfig
         root.add("musicVariance", entry2);
 
         final JsonObject entry8 = new JsonObject();
-        entry8.addProperty("desc:", "Disable default overworld music in nether/end, default = true");
+        entry8.addProperty("desc:", "Disables overworld music being played at random(rarely) in nether/end, default = true");
         entry8.addProperty("disableDefaultMusicInDimensions", disableDefaultMusicInDimensions);
         root.add("disableDefaultMusicInDimensions", entry8);
 

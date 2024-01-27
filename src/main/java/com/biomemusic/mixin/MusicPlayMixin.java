@@ -5,6 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.sounds.AbstractSoundInstance;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.SoundEngine;
+import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
 import org.spongepowered.asm.mixin.Mixin;
@@ -36,6 +37,11 @@ public class MusicPlayMixin
             {
                 Minecraft.getInstance().player.displayClientMessage(Component.literal("playing: " + sound.getSound().getLocation()), true);
             }
+        }
+
+        if (sound.getSound() == SoundManager.EMPTY_SOUND && (sound.getLocation().getNamespace().equals("biomemusic")))
+        {
+            Minecraft.getInstance().getMusicManager().nextSongDelay = 0;
         }
     }
 }
