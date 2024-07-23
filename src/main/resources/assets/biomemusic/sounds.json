@@ -205,5 +205,93 @@
         "stream": true
       }
     ]
+  },
+  "music.water": {
+    "sounds": [
+      {
+        "name": "biomemusic:music/water/water1",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/water/water2",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/water/water3",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/water/water4",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/water/water5",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/water/water6",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/water/water7",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/water/water8",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/water/water9",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/water/water10",
+        "stream": true
+      }
+    ]
+  },
+  "music.cave": {
+    "sounds": [
+      {
+        "name": "biomemusic:music/cave/cave1",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/cave/cave2",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/cave/cave3",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/cave/cave4",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/cave/cave5",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/cave/cave6",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/cave/cave7",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/cave/cave8",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/cave/cave9",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/cave/cave10",
+        "stream": true
+      }
+    ]
   }
 }

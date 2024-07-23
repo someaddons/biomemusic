@@ -1,9 +1,6 @@
 package com.biomemusic;
 
 import com.biomemusic.config.CommonConfiguration;
-import com.biomemusic.event.ClientEventHandler;
-import com.biomemusic.event.EventHandler;
-import com.biomemusic.event.ModEventHandler;
 import com.cupboard.config.CupboardConfig;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.IExtensionPoint;
@@ -31,8 +28,6 @@ public class BiomeMusic
     public BiomeMusic()
     {
         ModLoadingContext.get().registerExtensionPoint(IExtensionPoint.DisplayTest.class, () -> new IExtensionPoint.DisplayTest(() -> "", (c, b) -> true));
-        Mod.EventBusSubscriber.Bus.MOD.bus().get().register(ModEventHandler.class);
-        Mod.EventBusSubscriber.Bus.FORGE.bus().get().register(EventHandler.class);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
     }
@@ -40,8 +35,7 @@ public class BiomeMusic
     @SubscribeEvent
     public void clientSetup(FMLClientSetupEvent event)
     {
-        // Side safe client event handler
-        Mod.EventBusSubscriber.Bus.FORGE.bus().get().register(ClientEventHandler.class);
+
     }
 
     private void setup(final FMLCommonSetupEvent event)

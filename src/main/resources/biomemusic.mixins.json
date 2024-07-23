@@ -9,6 +9,8 @@
     "MusicPlayMixin",
     "MusicCreationMixin",
     "ClientMusicChoiceMixin",
+    "MusicManagerMixin",
+    "ReloadHookMixin",
     "SoundEventsMixin",
     "SoundManagerWarnMixin"
   ],

@@ -11,10 +11,7 @@ import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.biome.Biome;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class AdditionalMusic
 {
@@ -22,9 +19,13 @@ public class AdditionalMusic
     public static Music END_ADDITIONAL = new Music(Registry.registerForHolder(BuiltInRegistries.SOUND_EVENT, new ResourceLocation(BiomeMusic.MODID, "music.end"), SoundEvent.createVariableRangeEvent(new ResourceLocation(BiomeMusic.MODID, "music.end"))), 12000, 24000, false);
     public static Music GAME_ADDITIONAL = new Music(Registry.registerForHolder(BuiltInRegistries.SOUND_EVENT, new ResourceLocation(BiomeMusic.MODID, "music.game"), SoundEvent.createVariableRangeEvent(new ResourceLocation(BiomeMusic.MODID, "music.game"))), 12000, 24000, false);
     public static Music NIGHT_ADDITIONAL = new Music(Registry.registerForHolder(BuiltInRegistries.SOUND_EVENT, new ResourceLocation(BiomeMusic.MODID, "music.night"), SoundEvent.createVariableRangeEvent(new ResourceLocation(BiomeMusic.MODID, "music.night"))), 12000, 24000, false);
+    public static Music WATER_ADDITIONAL = new Music(Registry.registerForHolder(BuiltInRegistries.SOUND_EVENT, new ResourceLocation(BiomeMusic.MODID, "music.water"), SoundEvent.createVariableRangeEvent(new ResourceLocation(BiomeMusic.MODID, "music.water"))), 12000, 24000, false);
+    public static Music CAVE_ADDITIONAL = new Music(Registry.registerForHolder(BuiltInRegistries.SOUND_EVENT, new ResourceLocation(BiomeMusic.MODID, "music.cave"), SoundEvent.createVariableRangeEvent(new ResourceLocation(BiomeMusic.MODID, "music.cave"))), 12000, 24000, false);
 
     public static final Map<TagKey<Biome>, List<Music>> taggedMusic = new HashMap<>();
     public static final Map<String, List<Music>>        namedMusic  = new HashMap<>();
+
+    public static Set<Music> DISABLED = new HashSet<>();
 
     public static void init()
     {
