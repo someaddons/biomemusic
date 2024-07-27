@@ -131,6 +131,8 @@ public class ClientMusicChoiceMixin
                     possibleTracks.add(AdditionalMusic.CAVE_ADDITIONAL);
                     possibleTracks.add(AdditionalMusic.CAVE_ADDITIONAL);
                     possibleTracks.add(AdditionalMusic.CAVE_ADDITIONAL);
+                    possibleTracks.addAll(AdditionalMusic.namedMusic.get("cave"));
+                    possibleTracks.addAll(AdditionalMusic.namedMusic.get("cave"));
                 }
 
                 if (player.isCreative())
