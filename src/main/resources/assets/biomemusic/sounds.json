@@ -7,19 +7,19 @@
         "volume": 0.5
       },
       {
-        "name": "minecraft:music/game/nether/nether1",
+        "name": "minecraft:music/game/nether/warmth",
         "stream": true
       },
       {
-        "name": "minecraft:music/game/nether/nether2",
+        "name": "minecraft:music/game/nether/dead_voxel",
         "stream": true
       },
       {
-        "name": "minecraft:music/game/nether/nether3",
+        "name": "minecraft:music/game/nether/concrete_halls",
         "stream": true
       },
       {
-        "name": "minecraft:music/game/nether/nether4",
+        "name": "minecraft:music/game/nether/ballad_of_the_cats",
         "stream": true
       },
       {

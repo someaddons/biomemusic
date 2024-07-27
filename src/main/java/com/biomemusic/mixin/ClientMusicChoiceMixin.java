@@ -8,7 +8,6 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.WinScreen;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.sounds.SoundEngine;
 import net.minecraft.core.Holder;
 import net.minecraft.sounds.Music;
 import net.minecraft.sounds.Musics;
@@ -17,6 +16,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.biome.Biome;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -25,7 +25,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -132,6 +131,8 @@ public class ClientMusicChoiceMixin
                     possibleTracks.add(AdditionalMusic.CAVE_ADDITIONAL);
                     possibleTracks.add(AdditionalMusic.CAVE_ADDITIONAL);
                     possibleTracks.add(AdditionalMusic.CAVE_ADDITIONAL);
+                    possibleTracks.addAll(AdditionalMusic.namedMusic.get("cave"));
+                    possibleTracks.addAll(AdditionalMusic.namedMusic.get("cave"));
                 }
 
                 if (player.isCreative())
@@ -200,7 +201,7 @@ public class ClientMusicChoiceMixin
             return;
         }
 
-        for (Iterator<Music> iterator = possibleTracks.iterator(); iterator.hasNext();)
+        for (Iterator<Music> iterator = possibleTracks.iterator(); iterator.hasNext(); )
         {
             final Music track = iterator.next();
             if (AdditionalMusic.DISABLED.contains(track))

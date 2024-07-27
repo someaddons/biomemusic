@@ -28,13 +28,13 @@ public class ReloadHookMixin
 
         for (final Music music : toTest)
         {
-            final SimpleSoundInstance soundInstance = SimpleSoundInstance.forMusic(music.getEvent().get());
+            final SimpleSoundInstance soundInstance = SimpleSoundInstance.forMusic(music.getEvent().value());
             final WeighedSoundEvents sound = soundInstance.resolve(Minecraft.getInstance().getSoundManager());
             if (sound == null || soundInstance.getSound() == SoundManager.EMPTY_SOUND)
             {
                 if (BiomeMusic.config.getCommonConfig().logloadedmusic)
                 {
-                    BiomeMusic.LOGGER.info("Disabled music event due to being empty:"+music.getEvent().get().getLocation());
+                    BiomeMusic.LOGGER.info("Disabled music event due to being empty:" + music.getEvent().value().getLocation());
                 }
                 AdditionalMusic.DISABLED.add(music);
             }
