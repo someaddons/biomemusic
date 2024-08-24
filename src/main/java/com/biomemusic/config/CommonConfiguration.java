@@ -1,6 +1,5 @@
 package com.biomemusic.config;
 
-import com.biomemusic.BiomeMusic;
 import com.cupboard.config.ICommonConfig;
 import com.google.gson.JsonObject;
 
@@ -13,6 +12,7 @@ public class CommonConfiguration implements ICommonConfig
     public boolean displayMusicPlayed              = false;
     public boolean logloadedmusic = false;
     public boolean playonlycustomnightmusic        = false;
+    public boolean smartMusic = true;
 
     public CommonConfiguration()
     {
@@ -37,6 +37,11 @@ public class CommonConfiguration implements ICommonConfig
         entry2.addProperty("desc:", "Enables more varied music to be available for biomes, default = true");
         entry2.addProperty("musicVariance", musicVariance);
         root.add("musicVariance", entry2);
+
+        final JsonObject entry6 = new JsonObject();
+        entry6.addProperty("desc:", "Enables smart stopping of music, when the biome changes or player leaves a cave/water/night is over, default = true");
+        entry6.addProperty("smartMusic", smartMusic);
+        root.add("smartMusic", entry6);
 
         final JsonObject entry8 = new JsonObject();
         entry8.addProperty("desc:", "Disables overworld music being played at random(rarely) in nether/end, default = true");
@@ -66,6 +71,7 @@ public class CommonConfiguration implements ICommonConfig
         delayModifier = data.get("delayModifier").getAsJsonObject().get("delayModifier").getAsDouble();
         musicVariance = data.get("musicVariance").getAsJsonObject().get("musicVariance").getAsBoolean();
         displayMusicPlayed = data.get("displayMusicPlayed").getAsJsonObject().get("displayMusicPlayed").getAsBoolean();
+        smartMusic = data.get("smartMusic").getAsJsonObject().get("smartMusic").getAsBoolean();
         logloadedmusic = data.get("logloadedmusic").getAsJsonObject().get("logloadedmusic").getAsBoolean();
         playonlycustomnightmusic = data.get("playonlycustomnightmusic").getAsJsonObject().get("playonlycustomnightmusic").getAsBoolean();
         disableDefaultMusicInDimensions = data.get("disableDefaultMusicInDimensions").getAsJsonObject().get("disableDefaultMusicInDimensions").getAsBoolean();
