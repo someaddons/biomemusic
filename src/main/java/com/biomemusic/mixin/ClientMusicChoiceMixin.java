@@ -20,7 +20,6 @@ import net.minecraft.world.level.biome.Biome;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -31,6 +30,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import static com.biomemusic.AdditionalMusic.CAVE_TICKS;
 import static com.biomemusic.AdditionalMusic.WATER_ADDITIONAL;
 
 @Mixin(Minecraft.class)
@@ -47,9 +47,6 @@ public class ClientMusicChoiceMixin
     @Shadow
     @Final
     public Gui gui;
-
-    @Unique
-    private int caveTicks = 0;
 
     @Inject(method = "getSituationalMusic", at = @At("HEAD"), cancellable = true)
     private void biomemusic$musicChoice(final CallbackInfoReturnable<Music> cir)
@@ -74,12 +71,12 @@ public class ClientMusicChoiceMixin
             {
                 if (player.level().getBrightness(LightLayer.BLOCK, player.blockPosition()) < 6)
                 {
-                    caveTicks++;
+                    CAVE_TICKS++;
                 }
             }
             else
             {
-                caveTicks = 0;
+                CAVE_TICKS = 0;
             }
 
             if (this.player.level().dimension() == Level.END)
@@ -124,7 +121,7 @@ public class ClientMusicChoiceMixin
                     }
                 }
 
-                if (caveTicks > 300)
+                if (CAVE_TICKS > 300)
                 {
                     possibleTracks.add(AdditionalMusic.CAVE_ADDITIONAL);
                     possibleTracks.add(AdditionalMusic.CAVE_ADDITIONAL);
@@ -151,7 +148,7 @@ public class ClientMusicChoiceMixin
                     possibleTracks.add(Musics.UNDER_WATER);
                     possibleTracks.add(WATER_ADDITIONAL);
                     possibleTracks.add(WATER_ADDITIONAL);
-                    caveTicks = 0;
+                    CAVE_TICKS = 0;
                 }
             }
 
