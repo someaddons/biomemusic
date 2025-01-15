@@ -3,7 +3,7 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
-    id 'net.neoforged.gradle.userdev' version '7.0.142'
+    id 'net.neoforged.gradle.userdev' version '7.0.177'
 }
 
 tasks.named('wrapper', Wrapper).configure {
@@ -15,7 +15,7 @@ tasks.named('wrapper', Wrapper).configure {
     distributionType = Wrapper.DistributionType.BIN
 }
 
-version = "${mc_version}-${mod_version}"
+version = "${mc_version.substring(0, mc_version.length() - 2)}-${mod_version}"
 group = "com.${modid}" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "${modid}"
 

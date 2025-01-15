@@ -6,16 +6,16 @@
   "mixins": [
   ],
   "client": [
-    "MusicPlayMixin",
-    "MusicCreationMixin",
     "ClientMusicChoiceMixin",
+    "MusicCreationMixin",
     "MusicManagerMixin",
+    "MusicPlayMixin",
     "ReloadHookMixin",
     "SoundEventsMixin",
     "SoundManagerWarnMixin"
   ],
   "injectors": {
-    "defaultRequire": 1
+    "defaultRequire": 0
   },
   "minVersion": "0.8"
 }
