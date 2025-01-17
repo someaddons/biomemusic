@@ -69,7 +69,7 @@ public abstract class MusicManagerMixin
         if (BiomeMusic.config.getCommonConfig().smartMusic && playedMusic != null && fadeTowards != -1 && Minecraft.getInstance().level != null
               && Minecraft.getInstance().player != null && (Minecraft.getInstance().level.getGameTime() - startTime > 20 * 15))
         {
-            modifiedVolume += (fadeTowards > 0.1f ? 1 : -1) * (Minecraft.getInstance().options.getSoundSourceVolume(SoundSource.MUSIC) / (20 * 10));
+            modifiedVolume += (fadeTowards > 0.1f ? 1 : -1) * (Minecraft.getInstance().options.getSoundSourceVolume(SoundSource.MUSIC) / (20 * 20));
             modifiedVolume = Math.min(Minecraft.getInstance().options.getSoundSourceVolume(SoundSource.MUSIC), modifiedVolume);
             Minecraft.getInstance().getSoundManager().updateSourceVolume(SoundSource.MUSIC, modifiedVolume);
             if (Math.abs(modifiedVolume - fadeTowards) < 0.01)
@@ -93,12 +93,22 @@ public abstract class MusicManagerMixin
 
             if (playedMusic == AdditionalMusic.NIGHT_ADDITIONAL && Minecraft.getInstance().level.getDayTime() < 12000)
             {
+                if (BiomeMusic.config.getCommonConfig().displayMusicPlayed)
+                {
+                    BiomeMusic.LOGGER.info("Fading out music: "+playedMusic+" due to daytime");
+                }
+
                 fadeOut();
                 return;
             }
 
             if (playedMusic == AdditionalMusic.CAVE_ADDITIONAL && AdditionalMusic.CAVE_TICKS < 30)
             {
+                if (BiomeMusic.config.getCommonConfig().displayMusicPlayed)
+                {
+                    BiomeMusic.LOGGER.info("Fading out music: "+playedMusic+" due to leaving cave");
+                }
+
                 fadeOut();
                 return;
             }
@@ -106,6 +116,11 @@ public abstract class MusicManagerMixin
             if ((playedMusic == AdditionalMusic.WATER_ADDITIONAL || playedMusic == Musics.UNDER_WATER) && Minecraft.getInstance().player != null
                   && !Minecraft.getInstance().player.isUnderWater())
             {
+                if (BiomeMusic.config.getCommonConfig().displayMusicPlayed)
+                {
+                    BiomeMusic.LOGGER.info("Fading out music: "+playedMusic+" due to leaving water");
+                }
+
                 fadeOut();
                 return;
             }
@@ -113,12 +128,22 @@ public abstract class MusicManagerMixin
             if ((playedMusic == AdditionalMusic.END_ADDITIONAL || playedMusic == Musics.END || playedMusic == Musics.END_BOSS) && Minecraft.getInstance().player != null
                   && Minecraft.getInstance().player.level().dimension() != Level.END)
             {
+                if (BiomeMusic.config.getCommonConfig().displayMusicPlayed)
+                {
+                    BiomeMusic.LOGGER.info("Fading out music: "+playedMusic+" due to leaving the end");
+                }
+
                 fadeOut();
                 return;
             }
 
             if (playedMusic == AdditionalMusic.NETHER_ALL && Minecraft.getInstance().player != null && Minecraft.getInstance().player.level().dimension() != Level.NETHER)
             {
+                if (BiomeMusic.config.getCommonConfig().displayMusicPlayed)
+                {
+                    BiomeMusic.LOGGER.info("Fading out music: "+playedMusic+" due to leaving the nether");
+                }
+
                 fadeOut();
                 return;
             }
@@ -134,6 +159,11 @@ public abstract class MusicManagerMixin
                     }
                     else if (level.getGameTime() - lastBiomeTime > 20 * 30)
                     {
+                        if (BiomeMusic.config.getCommonConfig().displayMusicPlayed)
+                        {
+                            BiomeMusic.LOGGER.info("Fading out music: "+playedMusic+" due to changing biomes");
+                        }
+
                         fadeOut();
                     }
                 }
