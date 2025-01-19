@@ -34,7 +34,7 @@ import java.util.Map;
 import static com.biomemusic.AdditionalMusic.CAVE_TICKS;
 import static com.biomemusic.AdditionalMusic.WATER_ADDITIONAL;
 
-@Mixin(Minecraft.class)
+@Mixin(value = Minecraft.class, priority = 5)
 public class ClientMusicChoiceMixin
 {
     @Shadow

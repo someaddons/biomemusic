@@ -15,10 +15,9 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(MusicManager.class)
+@Mixin(value = MusicManager.class, priority = 5)
 public abstract class MusicManagerMixin
 {
     @Shadow
@@ -35,12 +34,6 @@ public abstract class MusicManagerMixin
 
     @Unique
     float modifiedVolume = 1.0f;
-
-    @Redirect(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/sounds/Music;replaceCurrentMusic()Z"))
-    private boolean noReplace(final Music instance)
-    {
-        return false;
-    }
 
     @Inject(method = "startPlaying", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/sounds/SoundManager;play(Lnet/minecraft/client/resources/sounds/SoundInstance;)V"))
     private void onStartMusic(final Music music, final CallbackInfo ci)

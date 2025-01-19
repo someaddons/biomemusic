@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Music.class)
 public class MusicCreationMixin
@@ -36,5 +37,11 @@ public class MusicCreationMixin
         {
             BiomeMusic.LOGGER.info("Loaded music: "+holder.unwrapKey().get().location());
         }
+    }
+
+    @Inject(method = "replaceCurrentMusic", at = @At("HEAD"), cancellable = true)
+    public void noReplace(final CallbackInfoReturnable<Boolean> cir)
+    {
+        cir.setReturnValue(false);
     }
 }
