@@ -66,7 +66,14 @@ public class ClientMusicChoiceMixin
 
         if (player == null)
         {
-            cir.setReturnValue(Musics.MENU);
+            if (BiomeMusic.rand.nextInt(10) == 0 && !AdditionalMusic.DISABLED.contains(AdditionalMusic.MENU_ADDITIONAL))
+            {
+                cir.setReturnValue(AdditionalMusic.MENU_ADDITIONAL);
+            }
+            else
+            {
+                cir.setReturnValue(Musics.MENU);
+            }
             return;
         }
 
@@ -74,7 +81,7 @@ public class ClientMusicChoiceMixin
 
         if (player.getY() < player.level().getSeaLevel() && !player.level().canSeeSky(player.blockPosition()))
         {
-            if (player.level().getBrightness(LightLayer.BLOCK, player.blockPosition()) < 6)
+            if (player.level().getBrightness(LightLayer.BLOCK, player.blockPosition()) < 6 && !this.player.isUnderWater())
             {
                 CAVE_TICKS++;
             }
@@ -193,11 +200,6 @@ public class ClientMusicChoiceMixin
             }
         }
 
-        if (possibleTracks.isEmpty())
-        {
-            return;
-        }
-
         for (Iterator<Music> iterator = possibleTracks.iterator(); iterator.hasNext(); )
         {
             final Music track = iterator.next();
@@ -205,6 +207,11 @@ public class ClientMusicChoiceMixin
             {
                 iterator.remove();
             }
+        }
+
+        if (possibleTracks.isEmpty())
+        {
+            return;
         }
 
         cir.setReturnValue(possibleTracks.get(BiomeMusic.rand.nextInt(possibleTracks.size())));
