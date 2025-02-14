@@ -29,7 +29,7 @@ public class StereoDetectorMixin
         }));
     }
 
-    @Inject(method = "lambda$getCompleteBuffer$0", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/audio/SoundBuffer;<init>(Ljava/nio/ByteBuffer;Ljavax/sound/sampled/AudioFormat;)V"), require = 0, locals = LocalCapture.CAPTURE_FAILSOFT)
+    @Inject(method = "method_19747", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/audio/SoundBuffer;<init>(Ljava/nio/ByteBuffer;Ljavax/sound/sampled/AudioFormat;)V"), require = 0, locals = LocalCapture.CAPTURE_FAILSOFT)
     private void addFuture(
         final ResourceLocation id,
         final CallbackInfoReturnable<SoundBuffer> cir,
@@ -38,6 +38,7 @@ public class StereoDetectorMixin
     {
         if (finiteaudiostream.getFormat().getChannels() > 1)
         {
+
             AdditionalMusic.stereoIDs.put(id, id);
         }
     }
