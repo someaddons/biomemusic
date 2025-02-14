@@ -12,9 +12,12 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.biome.Biome;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class AdditionalMusic
 {
+    public static Map<ResourceLocation, ResourceLocation> stereoIDs = new ConcurrentHashMap<>();
+
     public static int CAVE_TICKS = 0;
 
     public static Music NETHER_ALL       = new Music(Registry.registerForHolder(BuiltInRegistries.SOUND_EVENT,
@@ -35,6 +38,9 @@ public class AdditionalMusic
     public static Music CAVE_ADDITIONAL  = new Music(Registry.registerForHolder(BuiltInRegistries.SOUND_EVENT,
       ResourceLocation.fromNamespaceAndPath(BiomeMusic.MODID, "music.cave"),
       SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(BiomeMusic.MODID, "music.cave"))), 12000, 24000, false);
+    public static Music MENU_ADDITIONAL = new Music(Registry.registerForHolder(BuiltInRegistries.SOUND_EVENT,
+        ResourceLocation.fromNamespaceAndPath(BiomeMusic.MODID, "music.menu"),
+        SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(BiomeMusic.MODID, "music.menu"))), 12000, 24000, false);
 
     public static final Map<TagKey<Biome>, List<Music>> taggedMusic = new HashMap<>();
     public static final Map<String, List<Music>>        namedMusic  = new HashMap<>();
