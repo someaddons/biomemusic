@@ -22,7 +22,7 @@ public class ReloadHookMixin
     private void checkExistance(final CallbackInfo ci)
     {
         final List<Music> toTest = List.of(AdditionalMusic.CAVE_ADDITIONAL, AdditionalMusic.END_ADDITIONAL, AdditionalMusic.NIGHT_ADDITIONAL,
-          AdditionalMusic.GAME_ADDITIONAL, AdditionalMusic.WATER_ADDITIONAL);
+            AdditionalMusic.GAME_ADDITIONAL, AdditionalMusic.WATER_ADDITIONAL, AdditionalMusic.MENU_ADDITIONAL);
 
         AdditionalMusic.DISABLED.clear();
 
