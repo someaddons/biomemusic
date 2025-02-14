@@ -1,5 +1,6 @@
 package com.biomemusic.mixin;
 
+import com.biomemusic.AdditionalMusic;
 import com.biomemusic.BiomeMusic;
 import com.biomemusic.environment.MusicEnvironment;
 import net.minecraft.client.Minecraft;
@@ -8,15 +9,18 @@ import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.SoundEngine;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Mixin(SoundEngine.class)
@@ -25,6 +29,9 @@ public class MusicPlayMixin
     @Shadow
     @Final
     private Map<SoundInstance, Integer> soundDeleteTime;
+
+    @Unique
+    private static final Map<ResourceLocation, ResourceLocation> oncePlayed = new HashMap<>();
 
     @Inject(method = "play", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/resources/sounds/SoundInstance;getSound()Lnet/minecraft/client/resources/sounds/Sound;"))
     private void biomesMusic$onPlay(final SoundInstance sound, final CallbackInfo ci)
@@ -66,8 +73,24 @@ public class MusicPlayMixin
         // When playing a distance based sound, check distance first
         if (!sound.isRelative() && sound.getAttenuation() != SoundInstance.Attenuation.NONE)
         {
+            if (!oncePlayed.containsKey(sound.getLocation()))
+            {
+                oncePlayed.put(sound.getLocation(), sound.getLocation());
+                return;
+            }
+
+            if (AdditionalMusic.stereoIDs.containsKey(sound.getLocation()))
+            {
+                return;
+            }
+
+            if (sound.getX() == 0.0 && sound.getY() == 0.0 && sound.getZ() == 0.0)
+            {
+                return;
+            }
+
             final double distance = Minecraft.getInstance().player.position().distanceTo(new Vec3(sound.getX(), sound.getY(), sound.getZ()));
-            if (distance > sound.getSound().getAttenuationDistance() + 10)
+            if (distance > (Math.max(1.0, sound.getVolume()) * sound.getSound().getAttenuationDistance()) + 10)
             {
                 ci.cancel();
             }

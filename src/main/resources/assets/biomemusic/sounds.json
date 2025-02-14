@@ -162,6 +162,50 @@
       }
     ]
   },
+  "music.menu": {
+    "sounds": [
+      {
+        "name": "biomemusic:music/menu/menu1",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/menu/menu2",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/menu/menu3",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/menu/menu4",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/menu/menu5",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/menu/menu6",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/menu/menu7",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/menu/menu8",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/menu/menu9",
+        "stream": true
+      },
+      {
+        "name": "biomemusic:music/menu/menu10",
+        "stream": true
+      }
+    ]
+  },
   "music.night": {
     "sounds": [
       {

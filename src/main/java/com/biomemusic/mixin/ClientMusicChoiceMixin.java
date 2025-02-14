@@ -18,7 +18,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.biome.Biome;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -34,15 +33,13 @@ import java.util.Map;
 import static com.biomemusic.AdditionalMusic.CAVE_TICKS;
 import static com.biomemusic.AdditionalMusic.WATER_ADDITIONAL;
 
-@Mixin(value = Minecraft.class, priority = 5)
+@Mixin(Minecraft.class)
 public class ClientMusicChoiceMixin
 {
     @Shadow
-    @Nullable
     public Screen screen;
 
     @Shadow
-    @Nullable
     public LocalPlayer player;
 
     @Shadow
@@ -66,7 +63,14 @@ public class ClientMusicChoiceMixin
 
         if (player == null)
         {
-            cir.setReturnValue(Musics.MENU);
+            if (BiomeMusic.rand.nextInt(10) == 0 && !AdditionalMusic.DISABLED.contains(AdditionalMusic.MENU_ADDITIONAL))
+            {
+                cir.setReturnValue(AdditionalMusic.MENU_ADDITIONAL);
+            }
+            else
+            {
+                cir.setReturnValue(Musics.MENU);
+            }
             return;
         }
 
@@ -74,7 +78,7 @@ public class ClientMusicChoiceMixin
 
         if (player.getY() < player.level().getSeaLevel() && !player.level().canSeeSky(player.blockPosition()))
         {
-            if (player.level().getBrightness(LightLayer.BLOCK, player.blockPosition()) < 6)
+            if (player.level().getBrightness(LightLayer.BLOCK, player.blockPosition()) < 6 && !this.player.isUnderWater())
             {
                 CAVE_TICKS++;
             }
@@ -193,11 +197,6 @@ public class ClientMusicChoiceMixin
             }
         }
 
-        if (possibleTracks.isEmpty())
-        {
-            return;
-        }
-
         for (Iterator<Music> iterator = possibleTracks.iterator(); iterator.hasNext(); )
         {
             final Music track = iterator.next();
@@ -205,6 +204,11 @@ public class ClientMusicChoiceMixin
             {
                 iterator.remove();
             }
+        }
+
+        if (possibleTracks.isEmpty())
+        {
+            return;
         }
 
         cir.setReturnValue(possibleTracks.get(BiomeMusic.rand.nextInt(possibleTracks.size())));

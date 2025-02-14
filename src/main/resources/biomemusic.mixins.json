@@ -11,7 +11,8 @@
     "MusicPlayMixin",
     "ReloadHookMixin",
     "SoundEventsMixin",
-    "SoundManagerWarnMixin"
+    "SoundManagerWarnMixin",
+    "StereoDetectorMixin"
   ],
   "injectors": {
     "defaultRequire": 0
