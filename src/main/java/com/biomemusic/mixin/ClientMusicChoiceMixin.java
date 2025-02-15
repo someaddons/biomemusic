@@ -10,6 +10,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.WinScreen;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.core.Holder;
 import net.minecraft.sounds.Music;
 import net.minecraft.sounds.Musics;
@@ -35,7 +36,7 @@ import static com.biomemusic.AdditionalMusic.CAVE_TICKS;
 import static com.biomemusic.AdditionalMusic.WATER_ADDITIONAL;
 
 @Mixin(value = Minecraft.class, priority = 5)
-public class ClientMusicChoiceMixin
+public abstract class ClientMusicChoiceMixin
 {
     @Shadow
     @Nullable
@@ -48,6 +49,9 @@ public class ClientMusicChoiceMixin
     @Shadow
     @Final
     public Gui gui;
+
+    @Shadow
+    public abstract MusicManager getMusicManager();
 
     @Inject(method = "getSituationalMusic", at = @At("HEAD"), cancellable = true)
     private void biomemusic$musicChoice(final CallbackInfoReturnable<Music> cir)
@@ -91,18 +95,28 @@ public class ClientMusicChoiceMixin
             CAVE_TICKS = 0;
         }
 
-        // Initializes conditions
-        MusicEnvironment.environment.put(MusicEnvironment.END, this.player.level().dimension() == Level.END);
-        MusicEnvironment.environment.put(MusicEnvironment.NETHER, this.player.level().dimension() == Level.NETHER);
-        MusicEnvironment.environment.put(MusicEnvironment.OVERWORLD, this.player.level().dimension() == Level.OVERWORLD);
-        MusicEnvironment.environment.put(MusicEnvironment.CAVE, CAVE_TICKS > 300);
-        MusicEnvironment.environment.put(MusicEnvironment.NIGHT,
+        // Evaluate environment
+        boolean envChanged = false;
+        envChanged |= MusicEnvironment.setEnvironmentFor(MusicEnvironment.END, this.player.level().dimension() == Level.END);
+        envChanged |= MusicEnvironment.setEnvironmentFor(MusicEnvironment.NETHER, this.player.level().dimension() == Level.NETHER);
+        envChanged |= MusicEnvironment.setEnvironmentFor(MusicEnvironment.OVERWORLD, this.player.level().dimension() == Level.OVERWORLD);
+        envChanged |= MusicEnvironment.setEnvironmentFor(MusicEnvironment.CAVE, CAVE_TICKS > 300);
+        envChanged |= MusicEnvironment.setEnvironmentFor(MusicEnvironment.NIGHT,
             player.level().dimensionType().hasSkyLight() && !player.level().dimensionType().hasFixedTime() && (player.level().getDayTime() % 24000) > 12600);
 
         if (this.player.isUnderWater() && this.player.level().getBiome(this.player.blockPosition()).is(BiomeTags.PLAYS_UNDERWATER_MUSIC))
         {
-            MusicEnvironment.environment.put(MusicEnvironment.WATER, true);
+            envChanged |= MusicEnvironment.setEnvironmentFor(MusicEnvironment.WATER, true);
             CAVE_TICKS = 0;
+        }
+        else
+        {
+            envChanged |= MusicEnvironment.setEnvironmentFor(MusicEnvironment.WATER, false);
+        }
+
+        if (envChanged)
+        {
+            getMusicManager().nextSongDelay /= 2;
         }
 
         if (MusicEnvironment.canPlay(MusicType.End))
