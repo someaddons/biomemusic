@@ -40,4 +40,15 @@ public enum MusicEnvironment
 
         return true;
     }
+
+    public static boolean setEnvironmentFor(final MusicEnvironment env, final boolean enabled)
+    {
+        boolean old = environment.getBoolean(env);
+        if (old != enabled)
+        {
+            environment.put(env, enabled);
+            return true;
+        }
+        return false;
+    }
 }
