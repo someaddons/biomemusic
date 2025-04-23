@@ -97,6 +97,8 @@ public abstract class ClientMusicChoiceMixin
         envChanged |= MusicEnvironment.setEnvironmentFor(MusicEnvironment.END, this.player.level().dimension() == Level.END);
         envChanged |= MusicEnvironment.setEnvironmentFor(MusicEnvironment.NETHER, this.player.level().dimension() == Level.NETHER);
         envChanged |= MusicEnvironment.setEnvironmentFor(MusicEnvironment.OVERWORLD, this.player.level().dimension() == Level.OVERWORLD);
+        envChanged |= MusicEnvironment.setEnvironmentFor(MusicEnvironment.OTHERDIMENSIONS,
+            !(this.player.level().dimension() == Level.END || this.player.level().dimension() == Level.NETHER || this.player.level().dimension() == Level.OVERWORLD));
         envChanged |= MusicEnvironment.setEnvironmentFor(MusicEnvironment.CAVE, CAVE_TICKS > 300);
         envChanged |= MusicEnvironment.setEnvironmentFor(MusicEnvironment.NIGHT,
             player.level().dimensionType().hasSkyLight() && !player.level().dimensionType().hasFixedTime() && (player.level().getDayTime() % 24000) > 12600);
