@@ -2,6 +2,8 @@ package com.biomemusic.mixin;
 
 import com.biomemusic.AdditionalMusic;
 import com.biomemusic.BiomeMusic;
+import com.biomemusic.environment.MusicEnvironment;
+import com.biomemusic.environment.MusicType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.sounds.Music;
@@ -79,12 +81,13 @@ public abstract class MusicManagerMixin
             }
         }
 
-        if (playedMusic != null && BiomeMusic.rand.nextInt(20) == 0 && Minecraft.getInstance().level != null && Minecraft.getInstance().player != null)
+        if (playedMusic != null && BiomeMusic.rand.nextInt(20) == 0 && Minecraft.getInstance().level != null && Minecraft.getInstance().player != null
+            && BiomeMusic.config.getCommonConfig().smartMusic)
         {
             final Level level = Minecraft.getInstance().level;
             final Player player = Minecraft.getInstance().player;
 
-            if (playedMusic == AdditionalMusic.NIGHT_ADDITIONAL && Minecraft.getInstance().level.getDayTime() < 12000)
+            if (playedMusic == AdditionalMusic.NIGHT_ADDITIONAL && !MusicEnvironment.canPlay(MusicType.Night))
             {
                 if (BiomeMusic.config.getCommonConfig().displayMusicPlayed)
                 {
@@ -95,7 +98,7 @@ public abstract class MusicManagerMixin
                 return;
             }
 
-            if (playedMusic == AdditionalMusic.CAVE_ADDITIONAL && AdditionalMusic.CAVE_TICKS < 30)
+            if (playedMusic == AdditionalMusic.CAVE_ADDITIONAL && !MusicEnvironment.canPlay(MusicType.Cave))
             {
                 if (BiomeMusic.config.getCommonConfig().displayMusicPlayed)
                 {
@@ -107,7 +110,7 @@ public abstract class MusicManagerMixin
             }
 
             if ((playedMusic == AdditionalMusic.WATER_ADDITIONAL || playedMusic == Musics.UNDER_WATER) && Minecraft.getInstance().player != null
-                  && !Minecraft.getInstance().player.isUnderWater())
+                && !MusicEnvironment.canPlay(MusicType.Water))
             {
                 if (BiomeMusic.config.getCommonConfig().displayMusicPlayed)
                 {
@@ -119,7 +122,7 @@ public abstract class MusicManagerMixin
             }
 
             if ((playedMusic == AdditionalMusic.END_ADDITIONAL || playedMusic == Musics.END || playedMusic == Musics.END_BOSS) && Minecraft.getInstance().player != null
-                  && Minecraft.getInstance().player.level().dimension() != Level.END)
+                && !MusicEnvironment.canPlay(MusicType.End))
             {
                 if (BiomeMusic.config.getCommonConfig().displayMusicPlayed)
                 {
@@ -130,7 +133,7 @@ public abstract class MusicManagerMixin
                 return;
             }
 
-            if (playedMusic == AdditionalMusic.NETHER_ALL && Minecraft.getInstance().player != null && Minecraft.getInstance().player.level().dimension() != Level.NETHER)
+            if (playedMusic == AdditionalMusic.NETHER_ALL && Minecraft.getInstance().player != null && !MusicEnvironment.canPlay(MusicType.Nether))
             {
                 if (BiomeMusic.config.getCommonConfig().displayMusicPlayed)
                 {

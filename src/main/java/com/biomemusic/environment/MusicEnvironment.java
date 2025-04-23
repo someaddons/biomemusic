@@ -10,7 +10,8 @@ public enum MusicEnvironment
     NIGHT,
     OVERWORLD,
     NETHER,
-    END;
+    END,
+    OTHERDIMENSIONS;
 
     public static Object2BooleanOpenHashMap<MusicEnvironment> environment = new Object2BooleanOpenHashMap<>();
 
