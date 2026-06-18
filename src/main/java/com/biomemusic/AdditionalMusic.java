@@ -33,20 +33,64 @@ public class AdditionalMusic
 
     public static void init()
     {
-        taggedMusic.computeIfAbsent(BiomeTags.HAS_VILLAGE_SNOWY, key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_SNOWY_SLOPES));
         taggedMusic.computeIfAbsent(BiomeTags.HAS_ANCIENT_CITY, key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_DEEP_DARK));
+        namedMusic.computeIfAbsent("deep_dark", key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_DEEP_DARK));
         namedMusic.computeIfAbsent("cave", key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_DRIPSTONE_CAVES));
-        taggedMusic.computeIfAbsent(BiomeTags.IS_FOREST, key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_GROVE));
-        taggedMusic.computeIfAbsent(BiomeTags.HAS_VILLAGE_SNOWY, key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_GROVE));
-        taggedMusic.computeIfAbsent(BiomeTags.IS_MOUNTAIN, key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_JAGGED_PEAKS));
         namedMusic.computeIfAbsent("cave", key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_LUSH_CAVES));
+
+        namedMusic.computeIfAbsent("desert", key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_DESERT));
+        taggedMusic.computeIfAbsent(BiomeTags.IS_BADLANDS, key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_BADLANDS));
+        namedMusic.computeIfAbsent("mesa", key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_BADLANDS));
+        taggedMusic.computeIfAbsent(BiomeTags.IS_SAVANNA, key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_DESERT));
+        namedMusic.computeIfAbsent("savanna_plateau", key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_BADLANDS));
+        namedMusic.computeIfAbsent("windswept_savanna", key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_BADLANDS));
+
         namedMusic.computeIfAbsent("swamp", key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_SWAMP));
         taggedMusic.computeIfAbsent(BiomeTags.HAS_SWAMP_HUT, key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_SWAMP));
+
         taggedMusic.computeIfAbsent(BiomeTags.IS_JUNGLE, key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_JUNGLE));
         taggedMusic.computeIfAbsent(BiomeTags.IS_JUNGLE, key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_BAMBOO_JUNGLE));
         taggedMusic.computeIfAbsent(BiomeTags.IS_JUNGLE, key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_SPARSE_JUNGLE));
+
+        taggedMusic.computeIfAbsent(BiomeTags.IS_FOREST, key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_GROVE));
         taggedMusic.computeIfAbsent(BiomeTags.IS_FOREST, key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_FOREST));
+        namedMusic.computeIfAbsent("birch", key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_FLOWER_FOREST));
+        namedMusic.computeIfAbsent("flower", key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_MEADOW));
+        namedMusic.computeIfAbsent("flower", key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_CHERRY_GROVE));
+        namedMusic.computeIfAbsent("cherry", key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_MEADOW));
+        namedMusic.computeIfAbsent("cherry", key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_FLOWER_FOREST));
+        namedMusic.computeIfAbsent("meadow", key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_FLOWER_FOREST));
+        namedMusic.computeIfAbsent("meadow", key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_CHERRY_GROVE));
+
+        taggedMusic.computeIfAbsent(BiomeTags.IS_TAIGA, key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_OLD_GROWTH_TAIGA));
         namedMusic.computeIfAbsent("old_growth", key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_OLD_GROWTH_TAIGA));
+        namedMusic.computeIfAbsent("taiga", key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_OLD_GROWTH_TAIGA));
+
+        taggedMusic.computeIfAbsent(BiomeTags.HAS_VILLAGE_PLAINS, key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_MEADOW));
+        namedMusic.computeIfAbsent("sunflower", key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_MEADOW));
+        namedMusic.computeIfAbsent("sunflower", key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_FLOWER_FOREST));
+
+        taggedMusic.computeIfAbsent(BiomeTags.HAS_VILLAGE_SNOWY, key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_SNOWY_SLOPES));
+        taggedMusic.computeIfAbsent(BiomeTags.HAS_VILLAGE_SNOWY, key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_GROVE));
+        taggedMusic.computeIfAbsent(BiomeTags.HAS_VILLAGE_SNOWY, key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_FROZEN_PEAKS));
+        taggedMusic.computeIfAbsent(BiomeTags.HAS_IGLOO, key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_SNOWY_SLOPES));
+        taggedMusic.computeIfAbsent(BiomeTags.HAS_IGLOO, key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_GROVE));
+        taggedMusic.computeIfAbsent(BiomeTags.HAS_IGLOO, key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_FROZEN_PEAKS));
+        namedMusic.computeIfAbsent("snowy", key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_SNOWY_SLOPES));
+        namedMusic.computeIfAbsent("snowy", key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_GROVE));
+        namedMusic.computeIfAbsent("snowy", key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_FROZEN_PEAKS));
+        namedMusic.computeIfAbsent("frozen", key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_FROZEN_PEAKS));
+        namedMusic.computeIfAbsent("frozen", key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_SNOWY_SLOPES));
+        namedMusic.computeIfAbsent("ice_spikes", key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_FROZEN_PEAKS));
+        namedMusic.computeIfAbsent("ice_spikes", key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_SNOWY_SLOPES));
+
+        taggedMusic.computeIfAbsent(BiomeTags.IS_HILL, key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_JAGGED_PEAKS));
+        taggedMusic.computeIfAbsent(BiomeTags.IS_HILL, key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_STONY_PEAKS));
+        namedMusic.computeIfAbsent("stony", key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_STONY_PEAKS));
+        namedMusic.computeIfAbsent("windswept", key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_JAGGED_PEAKS));
+        namedMusic.computeIfAbsent("windswept", key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_STONY_PEAKS));
+
+        taggedMusic.computeIfAbsent(BiomeTags.IS_MOUNTAIN, key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_JAGGED_PEAKS));
         taggedMusic.computeIfAbsent(BiomeTags.IS_MOUNTAIN, key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_MEADOW));
         taggedMusic.computeIfAbsent(BiomeTags.IS_MOUNTAIN, key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_FROZEN_PEAKS));
         taggedMusic.computeIfAbsent(BiomeTags.IS_MOUNTAIN, key -> new ArrayList<>()).add(Musics.createGameMusic(SoundEvents.MUSIC_BIOME_SNOWY_SLOPES));
