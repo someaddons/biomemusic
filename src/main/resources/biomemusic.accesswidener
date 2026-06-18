@@ -1,3 +1,4 @@
 accessWidener	v1	named
 accessible field net/minecraft/client/resources/sounds/AbstractSoundInstance pitch F
 accessible field net/minecraft/client/sounds/MusicManager nextSongDelay I
+accessible field net/minecraft/client/sounds/SoundManager soundEngine Lnet/minecraft/client/sounds/SoundEngine;
