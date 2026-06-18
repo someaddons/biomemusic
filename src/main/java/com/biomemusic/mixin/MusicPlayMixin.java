@@ -36,6 +36,11 @@ public class MusicPlayMixin
     {
         if (sound.getSource() != SoundSource.MUSIC)
         {
+            if (sound.getSource() == SoundSource.RECORDS && BiomeMusic.config.getCommonConfig().stopMusicForRecords)
+            {
+                Minecraft.getInstance().getMusicManager().stopPlaying();
+            }
+
             return;
         }
 
@@ -98,7 +103,7 @@ public class MusicPlayMixin
     @Inject(method = "play", at = @At("HEAD"), cancellable = true)
     private void biomesMusic$limitMaxConcurrent(final SoundInstance soundInstance, final CallbackInfo ci)
     {
-        if (soundDeleteTime == null || soundInstance == null)
+        if (soundDeleteTime == null || soundInstance == null || Minecraft.getInstance().isPaused())
         {
             return;
         }
@@ -114,6 +119,11 @@ public class MusicPlayMixin
                     ci.cancel();
                     break;
                 }
+            }
+
+            if (BiomeMusic.config.getCommonConfig().stopMusicForRecords && sound.getSource() == SoundSource.RECORDS && soundInstance.getSource() == SoundSource.MUSIC)
+            {
+                ci.cancel();
             }
         }
     }

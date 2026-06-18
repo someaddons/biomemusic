@@ -18,8 +18,6 @@ public class AdditionalMusic
 {
     public static Map<ResourceLocation, ResourceLocation> stereoIDs = new ConcurrentHashMap<>();
 
-    public static int CAVE_TICKS = 0;
-
     public static Music NETHER_ALL = new Music(Registry.registerForHolder(BuiltInRegistries.SOUND_EVENT, new ResourceLocation(BiomeMusic.MODID, "music.nether"), SoundEvent.createVariableRangeEvent(new ResourceLocation(BiomeMusic.MODID, "music.nether"))), 12000, 24000, false);
     public static Music END_ADDITIONAL = new Music(Registry.registerForHolder(BuiltInRegistries.SOUND_EVENT, new ResourceLocation(BiomeMusic.MODID, "music.end"), SoundEvent.createVariableRangeEvent(new ResourceLocation(BiomeMusic.MODID, "music.end"))), 12000, 24000, false);
     public static Music GAME_ADDITIONAL = new Music(Registry.registerForHolder(BuiltInRegistries.SOUND_EVENT, new ResourceLocation(BiomeMusic.MODID, "music.game"), SoundEvent.createVariableRangeEvent(new ResourceLocation(BiomeMusic.MODID, "music.game"))), 12000, 24000, false);

@@ -17,6 +17,7 @@ public class CommonConfiguration implements ICommonConfig
     public float   pitchVariance       = 0f;
     public boolean musicVariance       = true;
     public boolean displayMusicPlayed  = false;
+    public boolean stopMusicForRecords = true;
     public boolean logloadedmusic      = false;
     public boolean smartMusic          = true;
     public int     maxConcurrentSounds = 10;
@@ -57,6 +58,11 @@ public class CommonConfiguration implements ICommonConfig
         entry6.addProperty("desc:", "Enables smart stopping of music, when the biome changes or player leaves a cave/water/night is over, default = true");
         entry6.addProperty("smartMusic", smartMusic);
         root.add("smartMusic", entry6);
+
+        final JsonObject entry11 = new JsonObject();
+        entry11.addProperty("desc:", "Enables Jukeboxes and records playing to stop the current background music, default = true");
+        entry11.addProperty("stopMusicForRecords", stopMusicForRecords);
+        root.add("stopMusicForRecords", entry11);
 
         final JsonObject entry8 = new JsonObject();
         entry8.addProperty("desc:",
@@ -171,6 +177,7 @@ public class CommonConfiguration implements ICommonConfig
             }
 
             musicConditions.put(type, new MusicType.MusicTypeData(type, required, disallowed));
+            stopMusicForRecords = data.get("stopMusicForRecords").getAsJsonObject().get("stopMusicForRecords").getAsBoolean();
         }
     }
 }
