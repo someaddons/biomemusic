@@ -1,9 +1,6 @@
 package com.biomemusic.mixin;
 
-import com.biomemusic.AdditionalMusic;
-import com.biomemusic.BiomeMusic;
-import com.biomemusic.environment.MusicEnvironment;
-import com.biomemusic.environment.MusicType;
+import com.biomemusic.MusicChoice;
 import net.minecraft.Optionull;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -15,25 +12,16 @@ import net.minecraft.core.Holder;
 import net.minecraft.sounds.Music;
 import net.minecraft.sounds.Musics;
 import net.minecraft.tags.BiomeTags;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.biome.Biome;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import static com.biomemusic.AdditionalMusic.CAVE_TICKS;
-import static com.biomemusic.AdditionalMusic.WATER_ADDITIONAL;
 
 @Mixin(value = Minecraft.class, priority = 5)
 public abstract class ClientMusicChoiceMixin
@@ -51,9 +39,10 @@ public abstract class ClientMusicChoiceMixin
     public Gui gui;
 
     @Shadow
-    public abstract MusicManager getMusicManager();
+    @Final
+    private MusicManager musicManager;
 
-    @Inject(method = "getSituationalMusic", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "getSituationalMusic", at = @At("RETURN"), cancellable = true)
     private void biomemusic$musicChoice(final CallbackInfoReturnable<Music> cir)
     {
         if (screen instanceof WinScreen)
@@ -68,168 +57,48 @@ public abstract class ClientMusicChoiceMixin
             return;
         }
 
-        if (player == null)
-        {
-            if (BiomeMusic.rand.nextInt(10) == 0 && !AdditionalMusic.DISABLED.contains(AdditionalMusic.MENU_ADDITIONAL))
-            {
-                cir.setReturnValue(AdditionalMusic.MENU_ADDITIONAL);
-            }
-            else
-            {
-                cir.setReturnValue(Musics.MENU);
-            }
-            return;
-        }
-
-        final List<Music> possibleTracks = new ArrayList<>();
-
-        if (player.getY() < player.level().getSeaLevel() && !player.level().canSeeSky(player.blockPosition()))
-        {
-            if (player.level().getBrightness(LightLayer.BLOCK, player.blockPosition()) < 6 && !this.player.isUnderWater())
-            {
-                CAVE_TICKS++;
-            }
-        }
-        else
-        {
-            CAVE_TICKS = 0;
-        }
-
-        // Evaluate environment
-        boolean envChanged = false;
-        envChanged |= MusicEnvironment.setEnvironmentFor(MusicEnvironment.END, this.player.level().dimension() == Level.END);
-        envChanged |= MusicEnvironment.setEnvironmentFor(MusicEnvironment.NETHER, this.player.level().dimension() == Level.NETHER);
-        envChanged |= MusicEnvironment.setEnvironmentFor(MusicEnvironment.OVERWORLD, this.player.level().dimension() == Level.OVERWORLD);
-        envChanged |= MusicEnvironment.setEnvironmentFor(MusicEnvironment.OTHERDIMENSIONS,
-            !(this.player.level().dimension() == Level.END || this.player.level().dimension() == Level.NETHER || this.player.level().dimension() == Level.OVERWORLD));
-        envChanged |= MusicEnvironment.setEnvironmentFor(MusicEnvironment.CAVE, CAVE_TICKS > 300);
-        envChanged |= MusicEnvironment.setEnvironmentFor(MusicEnvironment.NIGHT,
-            player.level().dimensionType().hasSkyLight() && !player.level().dimensionType().hasFixedTime() && (player.level().getDayTime() % 24000) > 12600);
-
-        if (this.player.isUnderWater() && this.player.level().getBiome(this.player.blockPosition()).is(BiomeTags.PLAYS_UNDERWATER_MUSIC))
-        {
-            envChanged |= MusicEnvironment.setEnvironmentFor(MusicEnvironment.WATER, true);
-            CAVE_TICKS = 0;
-        }
-        else
-        {
-            envChanged |= MusicEnvironment.setEnvironmentFor(MusicEnvironment.WATER, false);
-        }
-
-        if (envChanged)
-        {
-            getMusicManager().nextSongDelay /= 2;
-        }
-
-        if (MusicEnvironment.canPlay(MusicType.End))
-        {
-            if (gui.getBossOverlay().shouldPlayMusic())
-            {
-                possibleTracks.add(Musics.END_BOSS);
-            }
-            else
-            {
-                possibleTracks.add(Musics.END);
-            }
-
-            possibleTracks.add(AdditionalMusic.END_ADDITIONAL);
-            possibleTracks.add(AdditionalMusic.END_ADDITIONAL);
-        }
-
-        if (MusicEnvironment.canPlay(MusicType.Nether))
-        {
-            possibleTracks.add(AdditionalMusic.NETHER_ALL);
-            possibleTracks.add(AdditionalMusic.NETHER_ALL);
-        }
-
-        if (MusicEnvironment.canPlay(MusicType.Night))
-        {
-            possibleTracks.add(AdditionalMusic.NIGHT_ADDITIONAL);
-            possibleTracks.add(AdditionalMusic.NIGHT_ADDITIONAL);
-        }
-
-        if (MusicEnvironment.canPlay(MusicType.Cave))
-        {
-            possibleTracks.add(AdditionalMusic.CAVE_ADDITIONAL);
-            possibleTracks.add(AdditionalMusic.CAVE_ADDITIONAL);
-            possibleTracks.add(AdditionalMusic.CAVE_ADDITIONAL);
-            possibleTracks.add(AdditionalMusic.CAVE_ADDITIONAL);
-            possibleTracks.add(AdditionalMusic.CAVE_ADDITIONAL);
-            possibleTracks.add(AdditionalMusic.CAVE_ADDITIONAL);
-        }
-
-        if (MusicEnvironment.canPlay(MusicType.Game))
-        {
-            if (player.isCreative())
-            {
-                possibleTracks.add(Musics.CREATIVE);
-            }
-
-            possibleTracks.add(Musics.GAME);
-            possibleTracks.add(Musics.GAME);
-            possibleTracks.add(AdditionalMusic.GAME_ADDITIONAL);
-            possibleTracks.add(AdditionalMusic.GAME_ADDITIONAL);
-        }
-
-        if (MusicEnvironment.canPlay(MusicType.Water))
-        {
-            possibleTracks.add(Musics.UNDER_WATER);
-            possibleTracks.add(Musics.UNDER_WATER);
-            possibleTracks.add(Musics.UNDER_WATER);
-            possibleTracks.add(WATER_ADDITIONAL);
-            possibleTracks.add(WATER_ADDITIONAL);
-        }
-
-        if (MusicEnvironment.canPlay(MusicType.Biome))
-        {
-            // Add biome music
-            Holder<Biome> holder = this.player.level().getBiome(this.player.blockPosition());
-            final Music biomeMusic = holder.value().getBackgroundMusic().orElse(null);
-            if (biomeMusic != null)
-            {
-                possibleTracks.add(biomeMusic);
-                possibleTracks.add(biomeMusic);
-                possibleTracks.add(biomeMusic);
-                possibleTracks.add(biomeMusic);
-                possibleTracks.add(biomeMusic);
-            }
-
-            if (BiomeMusic.config.getCommonConfig().musicVariance)
-            {
-                for (final Map.Entry<TagKey<Biome>, List<Music>> entry : AdditionalMusic.taggedMusic.entrySet())
-                {
-                    if (holder.is(entry.getKey()))
-                    {
-                        possibleTracks.addAll(entry.getValue());
-                        possibleTracks.addAll(entry.getValue());
-                    }
-                }
-
-                for (final Map.Entry<String, List<Music>> entry : AdditionalMusic.namedMusic.entrySet())
-                {
-                    if (holder.unwrapKey().isPresent() && holder.unwrapKey().get().location().getPath().contains(entry.getKey()))
-                    {
-                        possibleTracks.addAll(entry.getValue());
-                        possibleTracks.addAll(entry.getValue());
-                    }
-                }
-            }
-        }
-
-        for (Iterator<Music> iterator = possibleTracks.iterator(); iterator.hasNext(); )
-        {
-            final Music track = iterator.next();
-            if (AdditionalMusic.DISABLED.contains(track))
-            {
-                iterator.remove();
-            }
-        }
-
-        if (possibleTracks.isEmpty())
+        // Custom mixin detected, TODO: Add neoforge event as needed
+        if (cir.getReturnValue() != getSituationalMusicOriginal())
         {
             return;
         }
 
-        cir.setReturnValue(possibleTracks.get(BiomeMusic.rand.nextInt(possibleTracks.size())));
+        MusicChoice.chooseMusic(cir);
+    }
+
+    // TODO: Update with MC version
+    @Unique
+    public Music getSituationalMusicOriginal()
+    {
+        Music music = Optionull.map(this.screen, Screen::getBackgroundMusic);
+        if (music != null)
+        {
+            return music;
+        }
+        else if (this.player != null)
+        {
+            if (this.player.level().dimension() == Level.END)
+            {
+                return this.gui.getBossOverlay().shouldPlayMusic() ? Musics.END_BOSS : Musics.END;
+            }
+            else
+            {
+                Holder<Biome> holder = this.player.level().getBiome(this.player.blockPosition());
+                if (!this.musicManager.isPlayingMusic(Musics.UNDER_WATER) && (!this.player.isUnderWater() || !holder.is(BiomeTags.PLAYS_UNDERWATER_MUSIC)))
+                {
+                    return this.player.level().dimension() != Level.NETHER && this.player.getAbilities().instabuild && this.player.getAbilities().mayfly
+                        ? Musics.CREATIVE
+                        : holder.value().getBackgroundMusic().orElse(Musics.GAME);
+                }
+                else
+                {
+                    return Musics.UNDER_WATER;
+                }
+            }
+        }
+        else
+        {
+            return Musics.MENU;
+        }
     }
 }
