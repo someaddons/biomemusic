@@ -2,6 +2,7 @@ package com.biomemusic.mixin;
 
 import com.biomemusic.AdditionalMusic;
 import com.biomemusic.BiomeMusic;
+import com.biomemusic.ISoundVolumeSetter;
 import com.biomemusic.environment.MusicEnvironment;
 import com.biomemusic.environment.MusicType;
 import net.minecraft.client.Minecraft;
@@ -61,12 +62,12 @@ public abstract class MusicManagerMixin
     @Inject(method = "tick", at = @At("HEAD"))
     private void onTick(final CallbackInfo ci)
     {
-        if (BiomeMusic.config.getCommonConfig().smartMusic && playedMusic != null && fadeTowards != -1 && Minecraft.getInstance().level != null
-              && Minecraft.getInstance().player != null && (Minecraft.getInstance().level.getGameTime() - startTime > 20 * 15))
+        if (playedMusic != null && fadeTowards != -1 && Minecraft.getInstance().level != null
+              && Minecraft.getInstance().player != null && (fadeTowards > 0.2 || Minecraft.getInstance().level.getGameTime() - startTime > 20 * 15))
         {
             modifiedVolume += (fadeTowards > 0.1f ? 1 : -1) * (Minecraft.getInstance().options.getSoundSourceVolume(SoundSource.MUSIC) / (20 * 20));
             modifiedVolume = Math.min(Minecraft.getInstance().options.getSoundSourceVolume(SoundSource.MUSIC), modifiedVolume);
-            Minecraft.getInstance().getSoundManager().updateSourceVolume(SoundSource.MUSIC, modifiedVolume);
+            ((ISoundVolumeSetter) (Minecraft.getInstance().getSoundManager().soundEngine)).adjustVolume(SoundSource.MUSIC, modifiedVolume);
             if (Math.abs(modifiedVolume - fadeTowards) < 0.01)
             {
                 if (fadeTowards == 0.1f)
@@ -76,7 +77,7 @@ public abstract class MusicManagerMixin
                 }
 
                 fadeTowards = -1;
-                Minecraft.getInstance().getSoundManager().updateSourceVolume(SoundSource.MUSIC, Minecraft.getInstance().options.getSoundSourceVolume(SoundSource.MUSIC));
+                ((ISoundVolumeSetter) (Minecraft.getInstance().getSoundManager().soundEngine)).adjustVolume(SoundSource.MUSIC, Minecraft.getInstance().options.getSoundSourceVolume(SoundSource.MUSIC));
                 // Done
             }
         }
