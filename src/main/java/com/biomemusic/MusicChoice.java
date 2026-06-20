@@ -106,6 +106,16 @@ public class MusicChoice
             possibleTracks.add(AdditionalMusic.CAVE_ADDITIONAL);
             possibleTracks.add(AdditionalMusic.CAVE_ADDITIONAL);
             possibleTracks.add(AdditionalMusic.CAVE_ADDITIONAL);
+
+            if (BiomeMusic.config.getCommonConfig().musicVariance)
+            {
+                final List<Music> caveMusic = AdditionalMusic.namedMusic.get("cave");
+                if (caveMusic != null)
+                {
+                    possibleTracks.addAll(caveMusic);
+                    possibleTracks.addAll(caveMusic);
+                }
+            }
         }
 
         if (MusicEnvironment.canPlay(MusicType.Game))
