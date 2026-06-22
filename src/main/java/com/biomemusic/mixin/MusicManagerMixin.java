@@ -1,18 +1,13 @@
 package com.biomemusic.mixin;
 
-import com.biomemusic.AdditionalMusic;
 import com.biomemusic.BiomeMusic;
 import com.biomemusic.ISoundVolumeSetter;
+import com.biomemusic.MusicChoice;
 import com.biomemusic.environment.MusicEnvironment;
-import com.biomemusic.environment.MusicType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.sounds.MusicManager;
 import net.minecraft.sounds.Music;
-import net.minecraft.sounds.Musics;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.biome.Biome;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -30,7 +25,8 @@ public abstract class MusicManagerMixin
     private Music playedMusic   = null;
     @Unique
     private long  startTime     = 0;
-    private long  lastBiomeTime = 0;
+    @Unique
+    private boolean playedMusicManaged = false;
 
     @Unique
     float fadeTowards = -1;
@@ -42,19 +38,11 @@ public abstract class MusicManagerMixin
     private void onStartMusic(final Music music, final CallbackInfo ci)
     {
         playedMusic = music;
+        playedMusicManaged = playedMusic == MusicChoice.lastChoice;
+
         if (BiomeMusic.config.getCommonConfig().smartMusic && playedMusic != null && Minecraft.getInstance().level != null && Minecraft.getInstance().player != null)
         {
             startTime = Minecraft.getInstance().level.getGameTime();
-            final Biome biome = Minecraft.getInstance().level.getBiome(Minecraft.getInstance().player.blockPosition()).value();
-            if (biome.getBackgroundMusic().isPresent() && biome.getBackgroundMusic().get().equals(playedMusic))
-            {
-                lastBiomeTime = startTime;
-            }
-            else
-            {
-                lastBiomeTime = 0;
-            }
-
             fadeIn();
         }
     }
@@ -74,6 +62,7 @@ public abstract class MusicManagerMixin
                 {
                     playedMusic = null;
                     stopPlaying();
+                    Minecraft.getInstance().getMusicManager().nextSongDelay /= 2;
                 }
 
                 fadeTowards = -1;
@@ -84,87 +73,14 @@ public abstract class MusicManagerMixin
 
         if (playedMusic != null && BiomeMusic.rand.nextInt(20) == 0 && Minecraft.getInstance().level != null && Minecraft.getInstance().player != null && BiomeMusic.config.getCommonConfig().smartMusic)
         {
-            final Level level = Minecraft.getInstance().level;
-            final Player player = Minecraft.getInstance().player;
-
-            if (playedMusic == AdditionalMusic.NIGHT_ADDITIONAL && !MusicEnvironment.canPlay(MusicType.Night))
+            if (playedMusicManaged && !MusicChoice.currentPossibleTracks.contains(playedMusic))
             {
-                if (BiomeMusic.config.getCommonConfig().displayMusicPlayed)
+                if (BiomeMusic.config.getCommonConfig().displayMusicPlayed && fadeTowards != 0.1f)
                 {
-                    BiomeMusic.LOGGER.info("Fading out music: " + playedMusic + " due to daytime");
+                    BiomeMusic.LOGGER.info("Fading out music: "+playedMusic.getEvent().unwrapKey().get().location()+" because it is no longer eligible. Environment:"+ MusicEnvironment.environment);
                 }
 
                 fadeOut();
-                return;
-            }
-
-            if (playedMusic == AdditionalMusic.CAVE_ADDITIONAL && !MusicEnvironment.canPlay(MusicType.Cave))
-            {
-                if (BiomeMusic.config.getCommonConfig().displayMusicPlayed)
-                {
-                    BiomeMusic.LOGGER.info("Fading out music: " + playedMusic + " due to leaving cave");
-                }
-
-                fadeOut();
-                return;
-            }
-
-            if ((playedMusic == AdditionalMusic.WATER_ADDITIONAL || playedMusic == Musics.UNDER_WATER) && Minecraft.getInstance().player != null
-                  && !MusicEnvironment.canPlay(MusicType.Water))
-            {
-                if (BiomeMusic.config.getCommonConfig().displayMusicPlayed)
-                {
-                    BiomeMusic.LOGGER.info("Fading out music: " + playedMusic + " due to leaving water");
-                }
-
-                fadeOut();
-                return;
-            }
-
-            if ((playedMusic == AdditionalMusic.END_ADDITIONAL || playedMusic == Musics.END || playedMusic == Musics.END_BOSS) && Minecraft.getInstance().player != null
-                  && !MusicEnvironment.canPlay(MusicType.End))
-            {
-                if (BiomeMusic.config.getCommonConfig().displayMusicPlayed)
-                {
-                    BiomeMusic.LOGGER.info("Fading out music: " + playedMusic + " due to leaving the end");
-                }
-
-                fadeOut();
-                return;
-            }
-
-            if (playedMusic == AdditionalMusic.NETHER_ALL && Minecraft.getInstance().player != null && !MusicEnvironment.canPlay(MusicType.Nether))
-            {
-                if (BiomeMusic.config.getCommonConfig().displayMusicPlayed)
-                {
-                    BiomeMusic.LOGGER.info("Fading out music: " + playedMusic + " due to leaving the nether");
-                }
-
-                fadeOut();
-                return;
-            }
-
-            if (lastBiomeTime > 0)
-            {
-                final Biome biome = level.getBiome(player.blockPosition()).value();
-                if (biome.getBackgroundMusic().isPresent())
-                {
-                    if (biome.getBackgroundMusic().get().equals(playedMusic))
-                    {
-                        lastBiomeTime = level.getGameTime();
-                    }
-                    else if (level.getGameTime() - lastBiomeTime > 20 * 30)
-                    {
-                        if (BiomeMusic.config.getCommonConfig().displayMusicPlayed)
-                        {
-                            BiomeMusic.LOGGER.info("Fading out music: " + playedMusic + " due to changing biomes");
-                        }
-
-                        fadeOut();
-                    }
-                }
-
-                return;
             }
         }
     }

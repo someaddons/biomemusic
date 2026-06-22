@@ -24,9 +24,11 @@ import static com.biomemusic.AdditionalMusic.WATER_ADDITIONAL;
 public class MusicChoice
 {
     private final static Random musicRandom = new Random();
-    public static        long   randomSeed  = BiomeMusic.rand.nextLong();
 
-    private static Music lastChoice = null;
+    public static Music lastChoice = null;
+    public static final Set<Music> currentPossibleTracks = Collections.newSetFromMap(new IdentityHashMap<>());
+
+    private static boolean lastChoicePlayed = false;
     private static CaveDetectionSystem caveDetectionSystem = new CaveDetectionSystem();
 
     public static void chooseMusic(final CallbackInfoReturnable<Music> cir)
@@ -34,6 +36,7 @@ public class MusicChoice
         final Player player = Minecraft.getInstance().player;
         if (player == null)
         {
+            currentPossibleTracks.clear();
             if (Minecraft.getInstance().getMusicManager().isPlayingMusic(AdditionalMusic.MENU_ADDITIONAL) || (BiomeMusic.rand.nextInt(5) == 0 && !AdditionalMusic.DISABLED.contains(AdditionalMusic.MENU_ADDITIONAL)
             && !Minecraft.getInstance().getMusicManager().isPlayingMusic(Musics.MENU)))
             {
@@ -185,26 +188,42 @@ public class MusicChoice
             }
         }
 
+        currentPossibleTracks.clear();
+        currentPossibleTracks.addAll(possibleTracks);
+
         if (possibleTracks.isEmpty())
         {
             Minecraft.getInstance().getMusicManager().nextSongDelay = 2 * 60 * 20;
             return;
         }
 
-        musicRandom.setSeed(randomSeed);
-        Music choice = possibleTracks.get(musicRandom.nextInt(possibleTracks.size()));
-        if (lastChoice != choice)
+        if (lastChoice != null && possibleTracks.contains(lastChoice))
         {
-            newSeed();
-            musicRandom.setSeed(randomSeed);
-            choice = possibleTracks.get(musicRandom.nextInt(possibleTracks.size()));
-            lastChoice = choice;
-        }
-        cir.setReturnValue(choice);
-    }
+            if (Minecraft.getInstance().getMusicManager().isPlayingMusic(lastChoice))
+            {
+                lastChoicePlayed = true;
+            }
 
-    private static void newSeed()
-    {
-        randomSeed = BiomeMusic.rand.nextLong();
+            if (!lastChoicePlayed || Minecraft.getInstance().getMusicManager().isPlayingMusic(lastChoice))
+            {
+                cir.setReturnValue(lastChoice);
+                return;
+            }
+        }
+
+        if (lastChoice != null)
+        {
+            possibleTracks.removeIf(track -> track == lastChoice);
+            if (possibleTracks.isEmpty())
+            {
+                possibleTracks.add(lastChoice);
+            }
+        }
+
+        Music choice = possibleTracks.get(musicRandom.nextInt(possibleTracks.size()));
+        lastChoice = choice;
+        lastChoicePlayed = false;
+
+        cir.setReturnValue(choice);
     }
 }
