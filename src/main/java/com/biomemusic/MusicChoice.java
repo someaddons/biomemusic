@@ -67,6 +67,13 @@ public class MusicChoice
         envChanged |= MusicEnvironment.setEnvironmentFor(MusicEnvironment.NIGHT,
             player.level().dimensionType().hasSkyLight() && !player.level().dimensionType().hasFixedTime() && (player.level().getOverworldClockTime() % 24000) > 12600);
 
+        if (musicMuted)
+        {
+            currentPossibleTracks.clear();
+            cir.setReturnValue(null);
+            return;
+        }
+
         if (player.isUnderWater() && backgroundMusic.underwaterMusic().isPresent())
         {
             envChanged |= MusicEnvironment.setEnvironmentFor(MusicEnvironment.WATER, true);
