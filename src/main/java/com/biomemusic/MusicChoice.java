@@ -50,9 +50,10 @@ public class MusicChoice
 
         // 26.1 +  new music selection. Dimensions and biomes supply the background music env, biome takes priority. Background music consists of a triple of creative, underwater and default music, creative and underwater are chosen with priority when they exist
         BackgroundMusic backgroundMusic = Minecraft.getInstance().gameRenderer.getMainCamera().attributeProbe().getValue(EnvironmentAttributes.BACKGROUND_MUSIC, 1.0F);
-        boolean isCreative = player.getAbilities().instabuild && player.getAbilities().mayfly;
-        boolean isUnderwater = player.isUnderWater();
-        Music vanillaMusic = backgroundMusic.select(isCreative, isUnderwater).orElse(null);
+        final boolean isCreative = player.getAbilities().instabuild && player.getAbilities().mayfly;
+        final boolean isUnderwater = player.isUnderWater();
+        final Music vanillaMusic = backgroundMusic.select(isCreative, isUnderwater).orElse(null);
+        final boolean musicMuted = Minecraft.getInstance().gameRenderer.getMainCamera().attributeProbe().getValue(EnvironmentAttributes.MUSIC_VOLUME, 1.0F) <= 0.0F;
 
         final List<Music> possibleTracks = new ArrayList<>();
         // Evaluate environment
@@ -65,6 +66,13 @@ public class MusicChoice
         envChanged |= MusicEnvironment.setEnvironmentFor(MusicEnvironment.CAVE, caveDetectionSystem.tick(Minecraft.getInstance()).goodForMusic());
         envChanged |= MusicEnvironment.setEnvironmentFor(MusicEnvironment.NIGHT,
             player.level().dimensionType().hasSkyLight() && !player.level().dimensionType().hasFixedTime() && (player.level().getOverworldClockTime() % 24000) > 12600);
+
+        if (musicMuted)
+        {
+            currentPossibleTracks.clear();
+            cir.setReturnValue(null);
+            return;
+        }
 
         if (player.isUnderWater() && backgroundMusic.underwaterMusic().isPresent())
         {
