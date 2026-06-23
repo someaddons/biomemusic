@@ -34,7 +34,7 @@ public abstract class MusicManagerMixin
     @Unique
     float modifiedVolume = 1.0f;
 
-    @Inject(method = "startPlaying", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/sounds/SoundManager;play(Lnet/minecraft/client/resources/sounds/SoundInstance;)V"))
+    @Inject(method = "startPlaying", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/sounds/SoundManager;play(Lnet/minecraft/client/resources/sounds/SoundInstance;)Lnet/minecraft/client/sounds/SoundEngine$PlayResult;"))
     private void onStartMusic(final Music music, final CallbackInfo ci)
     {
         playedMusic = music;
@@ -77,7 +77,7 @@ public abstract class MusicManagerMixin
             {
                 if (BiomeMusic.config.getCommonConfig().displayMusicPlayed && fadeTowards != 0.1f)
                 {
-                    BiomeMusic.LOGGER.info("Fading out music: "+playedMusic.getEvent().unwrapKey().get().location()+" because it is no longer eligible. Environment:"+ MusicEnvironment.environment);
+                    BiomeMusic.LOGGER.info("Fading out music: "+playedMusic.sound().unwrapKey().get().identifier()+" because it is no longer eligible. Environment:"+ MusicEnvironment.environment);
                 }
 
                 fadeOut();
@@ -102,7 +102,6 @@ public abstract class MusicManagerMixin
         {
             fadeTowards = Minecraft.getInstance().options.getSoundSourceVolume(SoundSource.MUSIC);
             modifiedVolume = 0.1f;
-            Minecraft.getInstance().getSoundManager().updateSourceVolume(SoundSource.MUSIC, modifiedVolume);
         }
     }
 }

@@ -275,7 +275,7 @@ public final class CaveDetectionSystem
         BlockState state = level.getBlockState(pos);
         return !state.isAir()
             && state.getFluidState().isEmpty()
-            && (!state.getCollisionShape(level, pos).isEmpty() || state.getLightBlock(level, pos) >= 15);
+            && (!state.getCollisionShape(level, pos).isEmpty() || state.getLightEmission(level, pos) >= 15);
     }
 
     public record CaveState(

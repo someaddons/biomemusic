@@ -34,7 +34,7 @@ public class MusicCreationMixin
 
         if (BiomeMusic.config.getCommonConfig().logloadedmusic && holder.unwrapKey().isPresent())
         {
-            BiomeMusic.LOGGER.info("Loaded music: "+holder.unwrapKey().get().location());
+            BiomeMusic.LOGGER.info("Loaded music: "+holder.unwrapKey().get().identifier());
         }
     }
 }
