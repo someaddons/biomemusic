@@ -172,8 +172,14 @@ public class MusicChoice
                 {
                     if (holder.is(entry.getKey()))
                     {
-                        possibleTracks.addAll(entry.getValue());
-                        possibleTracks.addAll(entry.getValue());
+                        for (final Music toAdd : entry.getValue())
+                        {
+                            if (!possibleTracks.contains(toAdd))
+                            {
+                                possibleTracks.addAll(entry.getValue());
+                                possibleTracks.addAll(entry.getValue());
+                            }
+                        }
                     }
                 }
 
@@ -181,8 +187,14 @@ public class MusicChoice
                 {
                     if (holder.unwrapKey().isPresent() && holder.unwrapKey().get().identifier().getPath().contains(entry.getKey()))
                     {
-                        possibleTracks.addAll(entry.getValue());
-                        possibleTracks.addAll(entry.getValue());
+                        for (final Music toAdd : entry.getValue())
+                        {
+                            if (!possibleTracks.contains(toAdd))
+                            {
+                                possibleTracks.addAll(entry.getValue());
+                                possibleTracks.addAll(entry.getValue());
+                            }
+                        }
                     }
                 }
             }
