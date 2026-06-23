@@ -49,11 +49,11 @@ public class MusicChoice
         }
 
         // 26.1 +  new music selection. Dimensions and biomes supply the background music env, biome takes priority. Background music consists of a triple of creative, underwater and default music, creative and underwater are chosen with priority when they exist
-        BackgroundMusic backgroundMusic = Minecraft.getInstance().gameRenderer.getMainCamera().attributeProbe().getValue(EnvironmentAttributes.BACKGROUND_MUSIC, 1.0F);
+        BackgroundMusic backgroundMusic = Minecraft.getInstance().gameRenderer.mainCamera().attributeProbe().getValue(EnvironmentAttributes.BACKGROUND_MUSIC, 1.0F);
         final boolean isCreative = player.getAbilities().instabuild && player.getAbilities().mayfly;
         final boolean isUnderwater = player.isUnderWater();
         final Music vanillaMusic = backgroundMusic.select(isCreative, isUnderwater).orElse(null);
-        final boolean musicMuted = Minecraft.getInstance().gameRenderer.getMainCamera().attributeProbe().getValue(EnvironmentAttributes.MUSIC_VOLUME, 1.0F) <= 0.0F;
+        final boolean musicMuted = Minecraft.getInstance().gameRenderer.mainCamera().attributeProbe().getValue(EnvironmentAttributes.MUSIC_VOLUME, 1.0F) <= 0.0F;
 
         final List<Music> possibleTracks = new ArrayList<>();
         // Evaluate environment
@@ -90,7 +90,7 @@ public class MusicChoice
 
         if (MusicEnvironment.canPlay(MusicType.End))
         {
-            if (Minecraft.getInstance().gui.getBossOverlay().shouldPlayMusic())
+            if (Minecraft.getInstance().gui.hud.getBossOverlay().shouldPlayMusic())
             {
                 possibleTracks.add(Musics.END_BOSS);
                 possibleTracks.add(Musics.END_BOSS);

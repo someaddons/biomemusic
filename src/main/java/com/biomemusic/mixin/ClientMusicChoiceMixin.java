@@ -30,10 +30,6 @@ public abstract class ClientMusicChoiceMixin
 {
     @Shadow
     @Nullable
-    public Screen screen;
-
-    @Shadow
-    @Nullable
     public LocalPlayer player;
 
     @Shadow
@@ -47,12 +43,12 @@ public abstract class ClientMusicChoiceMixin
     @Inject(method = "getSituationalMusic", at = @At("RETURN"), cancellable = true)
     private void biomemusic$musicChoice(final CallbackInfoReturnable<Music> cir)
     {
-        if (screen instanceof WinScreen)
+        if (this.gui.screen() instanceof WinScreen)
         {
             return;
         }
 
-        Music music = Optionull.map(this.screen, Screen::getBackgroundMusic);
+        Music music = Optionull.map(this.gui.screen(), Screen::getBackgroundMusic);
         if (music != null)
         {
             cir.setReturnValue(music);
@@ -72,18 +68,18 @@ public abstract class ClientMusicChoiceMixin
     @Unique
     public Music getSituationalMusicOriginal()
     {
-        Music screenMusic = Optionull.map(this.screen, Screen::getBackgroundMusic);
+        Music screenMusic = Optionull.map(this.gui.screen(), Screen::getBackgroundMusic);
         if (screenMusic != null)
         {
             return screenMusic;
         }
         else
         {
-            Camera camera = this.gameRenderer.getMainCamera();
-            if (this.player != null && camera != null)
+            Camera camera = this.gameRenderer.mainCamera();
+            if (this.player != null)
             {
                 Level playerLevel = this.player.level();
-                if (playerLevel.dimension() == Level.END && this.gui.getBossOverlay().shouldPlayMusic())
+                if (playerLevel.dimension() == Level.END && this.gui.hud.getBossOverlay().shouldPlayMusic())
                 {
                     return Musics.END_BOSS;
                 }

@@ -24,7 +24,7 @@ tasks.named('wrapper', Wrapper).configure {
 }
 
 def versionParts = project.mc_version.tokenize('.')
-def cleanVersion = versionParts.size() > 2 ? versionParts[0..-2].join('.') : project.minecraft_version
+def cleanVersion = versionParts.size() > 2 ? versionParts[0..-2].join('.') : project.mc_version
 version = cleanVersion + "-${mod_version}"
 group = "com.${modid}"
 
@@ -71,7 +71,6 @@ neoForge {
 
         server {
             server()
-            programArgument '--nogui'
             systemProperty 'neoforge.enabledGameTestNamespaces', project.modid
         }
 
@@ -121,7 +120,7 @@ configurations {
 }
 
 dependencies {
-    implementation "curse.maven:cupboard-326652:7904113"
+    implementation "curse.maven:cupboard-326652:8275394"
 }
 
 
