@@ -164,7 +164,7 @@ public class MusicChoice
         {
             // Add biome music
             Holder<Biome> holder = player.level().getBiome(player.blockPosition());
-            final Music biomeMusic = (vanillaMusic != Musics.GAME && vanillaMusic != Musics.CREATIVE) ? vanillaMusic : null;
+            final Music biomeMusic = (vanillaMusic.sound() != Musics.GAME.sound() && vanillaMusic.sound() != Musics.CREATIVE.sound()) ? vanillaMusic : null;
             if (biomeMusic != null)
             {
                 possibleTracks.add(biomeMusic);
