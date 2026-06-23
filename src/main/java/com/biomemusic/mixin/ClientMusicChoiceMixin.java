@@ -2,18 +2,18 @@ package com.biomemusic.mixin;
 
 import com.biomemusic.MusicChoice;
 import net.minecraft.Optionull;
+import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.WinScreen;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.sounds.MusicManager;
-import net.minecraft.core.Holder;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.sounds.Music;
 import net.minecraft.sounds.Musics;
-import net.minecraft.tags.BiomeTags;
+import net.minecraft.world.attribute.BackgroundMusic;
+import net.minecraft.world.attribute.EnvironmentAttributes;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.biome.Biome;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -40,7 +40,7 @@ public abstract class ClientMusicChoiceMixin
 
     @Shadow
     @Final
-    private MusicManager musicManager;
+    public GameRenderer gameRenderer;
 
     @Inject(method = "getSituationalMusic", at = @At("RETURN"), cancellable = true)
     private void biomemusic$musicChoice(final CallbackInfoReturnable<Music> cir)
@@ -57,7 +57,7 @@ public abstract class ClientMusicChoiceMixin
             return;
         }
 
-        // Custom mixin detected, TODO: Add neoforge event as needed
+        // Custom mixin detected
         if (cir.getReturnValue() != getSituationalMusicOriginal())
         {
             return;
@@ -70,35 +70,33 @@ public abstract class ClientMusicChoiceMixin
     @Unique
     public Music getSituationalMusicOriginal()
     {
-        Music music = Optionull.map(this.screen, Screen::getBackgroundMusic);
-        if (music != null)
+        Music screenMusic = Optionull.map(this.screen, Screen::getBackgroundMusic);
+        if (screenMusic != null)
         {
-            return music;
-        }
-        else if (this.player != null)
-        {
-            if (this.player.level().dimension() == Level.END)
-            {
-                return this.gui.getBossOverlay().shouldPlayMusic() ? Musics.END_BOSS : Musics.END;
-            }
-            else
-            {
-                Holder<Biome> holder = this.player.level().getBiome(this.player.blockPosition());
-                if (!this.musicManager.isPlayingMusic(Musics.UNDER_WATER) && (!this.player.isUnderWater() || !holder.is(BiomeTags.PLAYS_UNDERWATER_MUSIC)))
-                {
-                    return this.player.level().dimension() != Level.NETHER && this.player.getAbilities().instabuild && this.player.getAbilities().mayfly
-                        ? Musics.CREATIVE
-                        : holder.value().getBackgroundMusic().orElse(Musics.GAME);
-                }
-                else
-                {
-                    return Musics.UNDER_WATER;
-                }
-            }
+            return screenMusic;
         }
         else
         {
-            return Musics.MENU;
+            Camera camera = this.gameRenderer.getMainCamera();
+            if (this.player != null && camera != null)
+            {
+                Level playerLevel = this.player.level();
+                if (playerLevel.dimension() == Level.END && this.gui.getBossOverlay().shouldPlayMusic())
+                {
+                    return Musics.END_BOSS;
+                }
+                else
+                {
+                    BackgroundMusic backgroundMusic = camera.attributeProbe().getValue(EnvironmentAttributes.BACKGROUND_MUSIC, 1.0F);
+                    boolean isCreative = this.player.getAbilities().instabuild && this.player.getAbilities().mayfly;
+                    boolean isUnderwater = this.player.isUnderWater();
+                    return backgroundMusic.select(isCreative, isUnderwater).orElse(null);
+                }
+            }
+            else
+            {
+                return Musics.MENU;
+            }
         }
     }
 }

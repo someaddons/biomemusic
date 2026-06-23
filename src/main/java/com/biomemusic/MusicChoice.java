@@ -7,8 +7,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.Holder;
 import net.minecraft.sounds.Music;
 import net.minecraft.sounds.Musics;
-import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.attribute.BackgroundMusic;
+import net.minecraft.world.attribute.EnvironmentAttributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
@@ -30,7 +31,6 @@ public class MusicChoice
 
     public static void chooseMusic(final CallbackInfoReturnable<Music> cir)
     {
-        final CaveDetectionSystem.CaveState caveState = caveDetectionSystem.tick(Minecraft.getInstance());
         final Player player = Minecraft.getInstance().player;
         if (player == null)
         {
@@ -48,6 +48,12 @@ public class MusicChoice
             return;
         }
 
+        // 26.1 +  new music selection. Dimensions and biomes supply the background music env, biome takes priority. Background music consists of a triple of creative, underwater and default music, creative and underwater are chosen with priority when they exist
+        BackgroundMusic backgroundMusic = Minecraft.getInstance().gameRenderer.getMainCamera().attributeProbe().getValue(EnvironmentAttributes.BACKGROUND_MUSIC, 1.0F);
+        boolean isCreative = player.getAbilities().instabuild && player.getAbilities().mayfly;
+        boolean isUnderwater = player.isUnderWater();
+        Music vanillaMusic = backgroundMusic.select(isCreative, isUnderwater).orElse(null);
+
         final List<Music> possibleTracks = new ArrayList<>();
         // Evaluate environment
         boolean envChanged = false;
@@ -56,11 +62,11 @@ public class MusicChoice
         envChanged |= MusicEnvironment.setEnvironmentFor(MusicEnvironment.OVERWORLD, player.level().dimension() == Level.OVERWORLD);
         envChanged |= MusicEnvironment.setEnvironmentFor(MusicEnvironment.OTHERDIMENSIONS,
             !(player.level().dimension() == Level.END || player.level().dimension() == Level.NETHER || player.level().dimension() == Level.OVERWORLD));
-        envChanged |= MusicEnvironment.setEnvironmentFor(MusicEnvironment.CAVE, caveState.goodForMusic());
+        envChanged |= MusicEnvironment.setEnvironmentFor(MusicEnvironment.CAVE, caveDetectionSystem.tick(Minecraft.getInstance()).goodForMusic());
         envChanged |= MusicEnvironment.setEnvironmentFor(MusicEnvironment.NIGHT,
-            player.level().dimensionType().hasSkyLight() && !player.level().dimensionType().hasFixedTime() && (player.level().getDayTime() % 24000) > 12600);
+            player.level().dimensionType().hasSkyLight() && !player.level().dimensionType().hasFixedTime() && (player.level().getOverworldClockTime() % 24000) > 12600);
 
-        if (player.isUnderWater() && player.level().getBiome(player.blockPosition()).is(BiomeTags.PLAYS_UNDERWATER_MUSIC))
+        if (player.isUnderWater() && backgroundMusic.underwaterMusic().isPresent())
         {
             envChanged |= MusicEnvironment.setEnvironmentFor(MusicEnvironment.WATER, true);
         }
@@ -78,6 +84,10 @@ public class MusicChoice
         {
             if (Minecraft.getInstance().gui.getBossOverlay().shouldPlayMusic())
             {
+                possibleTracks.add(Musics.END_BOSS);
+                possibleTracks.add(Musics.END_BOSS);
+                possibleTracks.add(Musics.END_BOSS);
+                possibleTracks.add(Musics.END_BOSS);
                 possibleTracks.add(Musics.END_BOSS);
             }
             else
@@ -109,7 +119,6 @@ public class MusicChoice
             possibleTracks.add(AdditionalMusic.CAVE_ADDITIONAL);
             possibleTracks.add(AdditionalMusic.CAVE_ADDITIONAL);
             possibleTracks.add(AdditionalMusic.CAVE_ADDITIONAL);
-
             if (BiomeMusic.config.getCommonConfig().musicVariance)
             {
                 final List<Music> caveMusic = AdditionalMusic.namedMusic.get("cave");
@@ -123,7 +132,7 @@ public class MusicChoice
 
         if (MusicEnvironment.canPlay(MusicType.Game))
         {
-            if (player.isCreative())
+            if (isCreative)
             {
                 possibleTracks.add(Musics.CREATIVE);
             }
@@ -147,7 +156,7 @@ public class MusicChoice
         {
             // Add biome music
             Holder<Biome> holder = player.level().getBiome(player.blockPosition());
-            final Music biomeMusic = holder.value().getBackgroundMusic().orElse(null);
+            final Music biomeMusic = (vanillaMusic != Musics.GAME && vanillaMusic != Musics.CREATIVE) ? vanillaMusic : null;
             if (biomeMusic != null)
             {
                 possibleTracks.add(biomeMusic);
@@ -170,7 +179,7 @@ public class MusicChoice
 
                 for (final Map.Entry<String, List<Music>> entry : AdditionalMusic.namedMusic.entrySet())
                 {
-                    if (holder.unwrapKey().isPresent() && holder.unwrapKey().get().location().getPath().contains(entry.getKey()))
+                    if (holder.unwrapKey().isPresent() && holder.unwrapKey().get().identifier().getPath().contains(entry.getKey()))
                     {
                         possibleTracks.addAll(entry.getValue());
                         possibleTracks.addAll(entry.getValue());

@@ -2,7 +2,7 @@ package com.biomemusic;
 
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.Music;
 import net.minecraft.sounds.Musics;
 import net.minecraft.sounds.SoundEvent;
@@ -16,29 +16,31 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class AdditionalMusic
 {
-    public static Map<ResourceLocation, ResourceLocation> stereoIDs = new ConcurrentHashMap<>();
+    public static Map<Identifier, Identifier> stereoIDs = new ConcurrentHashMap<>();
+
+    public static int CAVE_TICKS = 0;
 
     public static Music NETHER_ALL       = new Music(Registry.registerForHolder(BuiltInRegistries.SOUND_EVENT,
-      ResourceLocation.fromNamespaceAndPath(BiomeMusic.MODID, "music.nether"),
-      SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(BiomeMusic.MODID, "music.nether"))), 12000, 24000, false);
+        Identifier.fromNamespaceAndPath(BiomeMusic.MODID, "music.nether"),
+        SoundEvent.createVariableRangeEvent(Identifier.fromNamespaceAndPath(BiomeMusic.MODID, "music.nether"))), 12000, 24000, false);
     public static Music END_ADDITIONAL   = new Music(Registry.registerForHolder(BuiltInRegistries.SOUND_EVENT,
-      ResourceLocation.fromNamespaceAndPath(BiomeMusic.MODID, "music.end"),
-      SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(BiomeMusic.MODID, "music.end"))), 12000, 24000, false);
+        Identifier.fromNamespaceAndPath(BiomeMusic.MODID, "music.end"),
+        SoundEvent.createVariableRangeEvent(Identifier.fromNamespaceAndPath(BiomeMusic.MODID, "music.end"))), 12000, 24000, false);
     public static Music GAME_ADDITIONAL  = new Music(Registry.registerForHolder(BuiltInRegistries.SOUND_EVENT,
-      ResourceLocation.fromNamespaceAndPath(BiomeMusic.MODID, "music.game"),
-      SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(BiomeMusic.MODID, "music.game"))), 12000, 24000, false);
+        Identifier.fromNamespaceAndPath(BiomeMusic.MODID, "music.game"),
+        SoundEvent.createVariableRangeEvent(Identifier.fromNamespaceAndPath(BiomeMusic.MODID, "music.game"))), 12000, 24000, false);
     public static Music NIGHT_ADDITIONAL = new Music(Registry.registerForHolder(BuiltInRegistries.SOUND_EVENT,
-      ResourceLocation.fromNamespaceAndPath(BiomeMusic.MODID, "music.night"),
-      SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(BiomeMusic.MODID, "music.night"))), 12000, 24000, false);
+        Identifier.fromNamespaceAndPath(BiomeMusic.MODID, "music.night"),
+        SoundEvent.createVariableRangeEvent(Identifier.fromNamespaceAndPath(BiomeMusic.MODID, "music.night"))), 12000, 24000, false);
     public static Music WATER_ADDITIONAL = new Music(Registry.registerForHolder(BuiltInRegistries.SOUND_EVENT,
-      ResourceLocation.fromNamespaceAndPath(BiomeMusic.MODID, "music.water"),
-      SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(BiomeMusic.MODID, "music.water"))), 12000, 24000, false);
+        Identifier.fromNamespaceAndPath(BiomeMusic.MODID, "music.water"),
+        SoundEvent.createVariableRangeEvent(Identifier.fromNamespaceAndPath(BiomeMusic.MODID, "music.water"))), 12000, 24000, false);
     public static Music CAVE_ADDITIONAL  = new Music(Registry.registerForHolder(BuiltInRegistries.SOUND_EVENT,
-      ResourceLocation.fromNamespaceAndPath(BiomeMusic.MODID, "music.cave"),
-      SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(BiomeMusic.MODID, "music.cave"))), 12000, 24000, false);
+        Identifier.fromNamespaceAndPath(BiomeMusic.MODID, "music.cave"),
+        SoundEvent.createVariableRangeEvent(Identifier.fromNamespaceAndPath(BiomeMusic.MODID, "music.cave"))), 12000, 24000, false);
     public static Music MENU_ADDITIONAL = new Music(Registry.registerForHolder(BuiltInRegistries.SOUND_EVENT,
-        ResourceLocation.fromNamespaceAndPath(BiomeMusic.MODID, "music.menu"),
-        SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(BiomeMusic.MODID, "music.menu"))), 12000, 24000, false);
+        Identifier.fromNamespaceAndPath(BiomeMusic.MODID, "music.menu"),
+        SoundEvent.createVariableRangeEvent(Identifier.fromNamespaceAndPath(BiomeMusic.MODID, "music.menu"))), 12000, 24000, false);
 
     public static final Map<TagKey<Biome>, List<Music>> taggedMusic = new HashMap<>();
     public static final Map<String, List<Music>>        namedMusic  = new HashMap<>();
