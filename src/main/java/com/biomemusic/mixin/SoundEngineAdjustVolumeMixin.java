@@ -19,7 +19,7 @@ public abstract class SoundEngineAdjustVolumeMixin implements ISoundVolumeSetter
     private Map<SoundInstance, ChannelAccess.ChannelHandle> instanceToChannel;
 
     @Shadow
-    protected abstract float calculateVolume(final SoundInstance p_120328_);
+    protected abstract float calculateVolume(final SoundInstance instance);
 
     @Override
     public void adjustVolume(final SoundSource category, final float volumeModifier)
