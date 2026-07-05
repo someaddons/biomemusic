@@ -26,7 +26,7 @@ public class StereoDetectorMixin
         }));
     }
 
-    @Inject(method = "lambda$getCompleteBuffer$1", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/audio/SoundBuffer;<init>(Ljava/nio/ByteBuffer;Ljavax/sound/sampled/AudioFormat;)V"), require = 0)
+    @Inject(method = "lambda$getCompleteBuffer$1", at = @At(value = "RETURN"), require = 0)
     private void addFuture(final Identifier id, final CallbackInfoReturnable<SoundBuffer> cir)
     {
         if (cir.getReturnValue().format().getChannels() > 1)
