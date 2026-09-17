@@ -29,7 +29,7 @@ public class ReloadHookMixin
         for (final Music music : toTest)
         {
             final SimpleSoundInstance soundInstance = SimpleSoundInstance.forMusic(music.sound().value());
-            final WeighedSoundEvents sound = soundInstance.resolve(Minecraft.getInstance().getSoundManager());
+            final WeighedSoundEvents sound = soundInstance.getOrResolve(Minecraft.getInstance().getSoundManager());
             if (sound == null || soundInstance.getSound() == SoundManager.EMPTY_SOUND)
             {
                 if (BiomeMusic.config.getCommonConfig().logloadedmusic)
